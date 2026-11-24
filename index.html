@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Karantina:wght@300;400;700&amp;family=Heebo:wght@300;400;500;700;800&amp;family=Outfit:wght@400;700;800&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #17233A; }
+  * { box-sizing: border-box; }
+  a { color: #C39228; text-decoration: none; }
+  a:hover { color: #7DBCC5; }
+  input, button, textarea { font-family: 'Heebo', sans-serif; }
+  ::placeholder { color: #8b93a3; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes chevPulse { 0%, 100% { opacity: .25; } 50% { opacity: 1; } }
+  @keyframes ringIn { 0% { transform: scale(2.8); opacity: 0; } 25% { opacity: .95; } 100% { transform: scale(1); opacity: 0; } }
+  @keyframes chev { 0%, 100% { opacity: .2; transform: translateX(0) rotate(45deg); } 40% { opacity: 1; transform: translateX(-4px) rotate(45deg); } }
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#17233A"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#17233A"></rect><text x="50" y="62" text-anchor="middle" font-family="Heebo, sans-serif" font-weight="800" font-size="26" fill="#C39228">ISFI</text></svg></template>
+</helmet>
+<div dir="rtl" lang="he" style="font-family: 'Heebo', system-ui, sans-serif; background: #17233A; color: #FBFBF9; overflow-x: clip; text-wrap: pretty; position: relative; max-width: {{ frameW }}; margin: 0 auto; outline: {{ frameOutline }};">
+
+  <sc-if value="{{ isPhone }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 10000; background: #17233A; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; padding: 32px; text-align: center;">
+      <img src="assets/logo-he-header.svg" alt="ISFI" style="height: 64px; width: auto; filter: brightness(0) invert(1);">
+      <p style="margin: 0; font-family: 'Karantina', sans-serif; font-weight: 700; font-size: 36px; line-height: 1.05; color: #FBFBF9;">העיצוב קיים כרגע רק בגרסת הדסקטופ.</p>
+      <p style="margin: 0; font-family: 'Heebo', sans-serif; font-size: 18px; line-height: 1.5; color: #C7D0DC;">נא פתחו אותו בדסקטופ בלבד.</p>
+      <p style="margin: 0; font-family: 'Heebo', sans-serif; font-size: 18px; font-weight: 700; color: #C39228;">תודה.</p>
+    </div>
+  </sc-if>
+  <header style="position: sticky; top: 0; z-index: 50; opacity: {{ hdrOp }}; pointer-events: {{ hdrPE }}; transition: opacity .6s ease; background: rgba(252,252,251,.97); backdrop-filter: blur(10px); color: #17233A; height: 100px; display: flex; align-items: center; padding: 0 clamp(56px, 16.3vw, 400px); box-shadow: 0 2px 14px rgba(15,23,40,.12);">
+    <a href="#top" style="display: flex; align-items: center; flex: 0 0 auto;">
+      <img src="assets/logo-he-header.svg" alt="ISFI, המכון האסטרטגי לעתיד ישראל" style="height: clamp(44px, 3.23vw, 62px); width: auto; display: block;">
+    </a>
+    <nav style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; gap: clamp(12px, 2vw, 38px); font-size: clamp(12px, .83vw, 16px); font-weight: 600; white-space: nowrap;">
+      <sc-for list="{{ navLinks }}" as="nl" hint-placeholder-count="5">
+        <a href="{{ nl.href }}" style="color: #17233A; transition: color .3s;" style-hover="color: #C39228;">{{ nl.label }}</a>
+      </sc-for>
+    </nav>
+    <a href="#join" style="margin-inline-start: auto; flex: 0 0 auto; display: flex; align-items: center; height: clamp(34px, 2.3vw, 44px); padding: 0 clamp(14px, 1.46vw, 28px); border-radius: 999px; background: #C39228; border: 1px solid #C39228; color: #FBFBF9; font-weight: 700; font-size: clamp(11px, .73vw, 14px); transition: all .3s;" style-hover="background: transparent; color: #C39228;">הצטרפו עכשיו</a>
+    <sc-if value="{{ adminEnabled }}" hint-placeholder-val="{{ false }}"><button onClick="{{ openAdmin }}" aria-label="Open site admin" title="Site admin" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 22px; height: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; background: transparent; border: none; border-radius: 4px; cursor: pointer; padding: 0; opacity: .55; transition: opacity .3s, background .3s;" style-hover="opacity: 1; background: rgba(23,35,58,.06);"><span style="width: 4px; height: 4px; border-radius: 50%; background: #C39228;"></span><span style="width: 4px; height: 4px; border-radius: 50%; background: #C39228;"></span><span style="width: 4px; height: 4px; border-radius: 50%; background: #C39228;"></span></button></sc-if>
+  </header>
+
+
+
+  <section id="top" style="--u0: calc((85vh - 100px) / 49.69); --k: {{ heroK }}; --u: calc(var(--u0) * var(--k)); --dy: calc(100vh - 66px - 48.865 * var(--u)); position: relative; z-index: 5; height: calc(calc(142.22 * var(--u)) - 25px + var(--dy)); overflow-x: clip; overflow-y: visible; background: #2E4A7A; line-height: normal;">
+    <div style="position: absolute; z-index: 0; inset: 0; overflow: hidden; pointer-events: none;">
+    <img src="assets/v4-sky.png" alt="" style="position: absolute; z-index: 0; top: 0; left: -12.9vw; width: 125.8vw; height: auto; display: block; pointer-events: none;">
+    <div style="position: absolute; z-index: 1; inset-inline: 0; top: 0; height: calc(40 * var(--u)); background: linear-gradient(180deg, rgba(23,35,59,.85) 0%, rgba(23,35,59,.45) 45%, rgba(23,35,59,0) 100%); opacity: {{ gradOp }}; transition: opacity 3s ease; pointer-events: none;"></div>
+    </div>
+    <img src="assets/v4-statues-2.png" alt="פסלי אבן מתפוררים של מייסדי המדינה" style="position: absolute; z-index: 20; top: calc(calc(calc(3.44 * var(--u)) - 10px) + var(--dy)); left: calc(50% - 43.44 * var(--u)); width: calc(84.7 * var(--u)); transform: scale(1.198); transform-origin: 50% 100%; height: auto; display: block; pointer-events: none;">
+    <div style="position: absolute; z-index: 19; bottom: 0px; left: 0; width: 100%; aspect-ratio: 1122 / 480; overflow: hidden; pointer-events: none;"><img src="assets/surface-back.png" alt="" style="position: absolute; top: -15px; left: 0; width: 100%; height: auto; display: block; filter: brightness(.78);"></div>
+    <img src="assets/v4-pillars.png" alt="ארבעה עמודי אבן סדוקים" style="position: absolute; z-index: 21; top: calc(calc(calc(45.6 * var(--u)) - 25px) + var(--dy)); left: calc(50% - 66.81 * var(--u)); width: calc(133.63 * var(--u)); height: auto; display: block; pointer-events: none;">
+    <div aria-hidden="true" style="position: absolute; z-index: 25; top: {{ hintTop }}; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 4px; color: #FBFBF9; opacity: {{ hintOp }}; transition: opacity .6s ease; pointer-events: none; filter: drop-shadow(0 2px 6px rgba(15,23,40,.5));"><svg viewBox="5 2 18 25" width="25" height="35" fill="currentColor"><path d="M14,26c-3.71,0-6.74-3.02-6.74-6.74v-10.53c0-3.71,3.02-6.74,6.74-6.74s6.74,3.02,6.74,6.74v10.53c0,3.71-3.02,6.74-6.74,6.74ZM14,2.6c-3.38,0-6.14,2.75-6.14,6.14v10.53c0,3.38,2.75,6.14,6.14,6.14s6.14-2.75,6.14-6.14v-10.53c0-3.38-2.75-6.14-6.14-6.14Z" stroke="currentColor" stroke-width=".6"></path><path d="M14,10.7c-.17,0-.3-.13-.3-.3v-4.2c0-.17.13-.3.3-.3s.3.13.3.3v4.2c0,.17-.13.3-.3.3Z" stroke="currentColor" stroke-width=".6" style="animation: chevPulse 1.4s ease-in-out infinite;"></path></svg><svg viewBox="6 3 16 28" width="12" height="21" fill="currentColor"><polygon points="21.88 7.32 21.88 3.47 14 8.68 6.12 3.47 6.12 7.32 14 12.53 21.88 7.32" style="animation: chevPulse 1.4s ease-in-out 0s infinite;"></polygon><polygon transform="translate(0 3)" points="21.88 13.32 21.88 9.47 14 14.68 6.12 9.47 6.12 13.32 14 18.53 21.88 13.32" style="animation: chevPulse 1.4s ease-in-out 0.2s infinite;"></polygon><polygon transform="translate(0 6)" points="21.88 19.32 21.88 15.47 14 20.68 6.12 15.47 6.12 19.32 14 24.53 21.88 19.32" style="animation: chevPulse 1.4s ease-in-out 0.4s infinite;"></polygon></svg></div>
+    <h1 style="position: absolute; z-index: 15; top: calc(15vh + 34px - 5.016 * var(--u0)); inset-inline: 0; margin: 0; display: flex; justify-content: center; align-items: flex-end; font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: calc(6.27 * var(--u0)); line-height: 1; white-space: nowrap; text-shadow: 0 calc(.3 * var(--u0)) calc(1.2 * var(--u0)) rgba(15,23,40,.55); transform: scale({{ h1Scale }}); transform-origin: 50% 85%; transition: transform 1.2s cubic-bezier(.22,.8,.25,1); pointer-events: none;"><span style="display: inline-flex; color: #FBFBF9; padding-block: .15em; margin-block: -.15em; clip-path: {{ introClip }}; transition: clip-path 1.1s cubic-bezier(.65,0,.35,1);"><span ref="{{ isrRef }}" style="display: inline-block; translate: {{ isrShift }}; transition: translate 1.2s cubic-bezier(.22,.8,.25,1);">ישראל</span><span ref="{{ fadeRef }}" style="display: inline-block; opacity: {{ fadeOp }}; transition: opacity 1.2s ease;">&nbsp;שהם ואנחנו מכירים</span></span><span style="display: inline-block; overflow: {{ mtOverflow }}; max-width: {{ mtW }}; padding-block: .15em; margin-block: -.15em; transition: max-width .9s cubic-bezier(.22,.8,.25,1);"><span ref="{{ mtRef }}" style="display: inline-block; padding-inline-start: .28em; color: {{ mtColor }}; translate: {{ mtShift }}; transition: color .6s ease, translate 1.2s cubic-bezier(.22,.8,.25,1);">נסדקת</span></span></h1>
+    <img data-fall="0" src="assets/book-01.png" alt="מגילת אבן ״מדינת היהודים״" style="position: absolute; z-index: 24; left: calc(50% + 6 * var(--u) + 145px); top: calc(58 * var(--u) + var(--dy)); width: calc(10.8 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="1" src="assets/chip-1.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -26 * var(--u)); top: calc(52 * var(--u) + var(--dy)); width: calc(2.6 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="2" src="assets/chip-2.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -9 * var(--u)); top: calc(60 * var(--u) + var(--dy)); width: calc(2.2 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="3" src="assets/chip-3.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 19 * var(--u)); top: calc(55 * var(--u) + var(--dy)); width: calc(2 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="4" src="assets/chip-4.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 31 * var(--u)); top: calc(63 * var(--u) + var(--dy)); width: calc(1.9 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="5" src="assets/chip-5.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -33 * var(--u)); top: calc(66 * var(--u) + var(--dy)); width: calc(1.6 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="6" src="assets/chip-2.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -18 * var(--u)); top: calc(54 * var(--u) + var(--dy)); width: calc(1.7 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="7" src="assets/chip-4.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -2 * var(--u)); top: calc(50 * var(--u) + var(--dy)); width: calc(1.5 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="8" src="assets/chip-1.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 12 * var(--u)); top: calc(62 * var(--u) + var(--dy)); width: calc(2.1 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="9" src="assets/chip-5.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 25 * var(--u)); top: calc(49 * var(--u) + var(--dy)); width: calc(1.4 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="10" src="assets/chip-3.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 37 * var(--u)); top: calc(58 * var(--u) + var(--dy)); width: calc(1.8 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="11" src="assets/chip-2.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -38 * var(--u)); top: calc(57 * var(--u) + var(--dy)); width: calc(1.9 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="12" src="assets/chip-5.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 2 * var(--u)); top: calc(66 * var(--u) + var(--dy)); width: calc(1.3 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="13" src="assets/chip-1.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -22 * var(--u)); top: calc(48 * var(--u) + var(--dy)); width: calc(1.8 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="14" src="assets/chip-3.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 8 * var(--u)); top: calc(52 * var(--u) + var(--dy)); width: calc(1.6 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="15" src="assets/chip-5.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 30 * var(--u)); top: calc(54 * var(--u) + var(--dy)); width: calc(1.5 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="16" src="assets/chip-2.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -6 * var(--u)); top: calc(58 * var(--u) + var(--dy)); width: calc(2 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="17" src="assets/chip-4.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 17 * var(--u)); top: calc(47 * var(--u) + var(--dy)); width: calc(1.4 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="18" src="assets/chip-1.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -34 * var(--u)); top: calc(53 * var(--u) + var(--dy)); width: calc(1.5 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="19" src="assets/chip-4.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -28 * var(--u)); top: calc(51 * var(--u) + var(--dy)); width: calc(1.6 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="20" src="assets/chip-2.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 4 * var(--u)); top: calc(55 * var(--u) + var(--dy)); width: calc(1.9 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="21" src="assets/chip-5.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 24 * var(--u)); top: calc(50 * var(--u) + var(--dy)); width: calc(1.4 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="22" src="assets/chip-1.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -14 * var(--u)); top: calc(62 * var(--u) + var(--dy)); width: calc(1.7 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="23" src="assets/chip-3.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 34 * var(--u)); top: calc(56 * var(--u) + var(--dy)); width: calc(1.5 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="24" src="assets/chip-2.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -36 * var(--u)); top: calc(59 * var(--u) + var(--dy)); width: calc(1.6 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="25" src="assets/chip-4.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + 13 * var(--u)); top: calc(64 * var(--u) + var(--dy)); width: calc(1.3 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-fall="26" src="assets/chip-5.png" alt="" style="position: absolute; z-index: 24; left: calc(50% + -4 * var(--u)); top: calc(48 * var(--u) + var(--dy)); width: calc(1.5 * var(--u)); height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-shard="1" src="assets/shard-1.png" alt="" style="position: absolute; z-index: 24; left: 0; top: 0; width: 10px; height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-shard="2" src="assets/shard-2.png" alt="" style="position: absolute; z-index: 24; left: 0; top: 0; width: 10px; height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-shard="3" src="assets/shard-3.png" alt="" style="position: absolute; z-index: 24; left: 0; top: 0; width: 10px; height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-shard="4" src="assets/shard-4.png" alt="" style="position: absolute; z-index: 24; left: 0; top: 0; width: 10px; height: auto; opacity: 0; pointer-events: none; display: block;">
+    <img data-shard="5" src="assets/shard-5.png" alt="" style="position: absolute; z-index: 24; left: 0; top: 0; width: 10px; height: auto; opacity: 0; pointer-events: none; display: block;">
+    <h2 style="position: absolute; z-index: 22; top: calc(calc(45.6 * var(--u)) - 25px + var(--dy) + 5.59 * var(--u)); left: 50%; transform: translate(-50%, -50%); margin: 0; font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: calc(calc(3.993 * var(--u)) + 2px); line-height: 1; color: #2E2A27; white-space: nowrap;">4 עמודי החוסן של ישראל נשחקים במקביל</h2>
+    <sc-for list="{{ pillarPanels }}" as="pp" hint-placeholder-count="4">
+      <div onMouseEnter="{{ pp.enter }}" onMouseLeave="{{ pp.leave }}" style="position: absolute; z-index: 22; top: calc(calc(45.6 * var(--u)) - 25px + var(--dy) + 35.937 * var(--u)); left: {{ pp.left }}; width: calc(9.583 * var(--u)); height: calc(26.088 * var(--u) + 24px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: calc(6.36 * var(--u) - 4px); translate: 0 {{ pp.liftT }}; box-sizing: border-box; gap: 0; transition: translate .35s ease; text-align: center; cursor: default;"><svg viewBox="0 0 100 300" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 0;"><sc-for list="{{ pp.cracks }}" as="ck" hint-placeholder-count="0"><path d="{{ ck.d }}" pathLength="1" fill="none" stroke="#672E0A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" style="stroke-dasharray: 1; stroke-dashoffset: {{ ck.off }}; transition: stroke-dashoffset 1.1s cubic-bezier(.3,.7,.2,1) 3s;"></path><path d="{{ ck.d2 }}" pathLength="1" fill="none" stroke="rgba(255,250,240,.28)" stroke-width="1" stroke-linecap="round" vector-effect="non-scaling-stroke" style="stroke-dasharray: 1; stroke-dashoffset: {{ ck.off }}; transition: stroke-dashoffset 1.1s cubic-bezier(.3,.7,.2,1) 3s;"></path></sc-for></svg>
+        <h3 style="position: relative; margin: 0; font-family: 'Heebo', sans-serif; font-weight: 800; font-size: calc(2.13 * var(--u)); line-height: 1.12; min-height: 3.36em; display: flex; align-items: flex-end; justify-content: center; color: #2E2A27;"><span style="position: relative;"><span style="position: absolute; left: 0; right: 0; bottom: calc(100% + 4px); font-family: 'Heebo', sans-serif; font-weight: 600; font-size: calc(1.1 * var(--u) + 1px); line-height: 1.2; white-space: nowrap; text-align: center; color: #2E2A27; opacity: {{ pp.preOp }}; transition: opacity .35s ease; pointer-events: none;">כיום אין</span>{{ pp.line1 }}<br>{{ pp.line2 }}</span></h3>
+        <p style="margin: 0; margin-top: {{ pp.textGap }}; font-weight: 600; font-size: calc(1.089 * var(--u) + 1px); padding-inline: 2px; line-height: 1.45; color: #2E2A27; opacity: {{ pp.textOpacity }}; max-height: {{ pp.textMax }}; overflow: hidden; transition: opacity .35s ease, max-height .35s ease;">{{ pp.text }}</p>
+        <sc-if value="{{ pp.closed }}" hint-placeholder-val="{{ true }}"><button onClick="{{ pp.toggle }}" aria-label="{{ pp.aria }}" style="position: relative; overflow: visible; flex: 0 0 auto; margin-top: calc(1.198 * var(--u) + 20px); translate: 0 {{ pp.signT }}; width: calc(1.33 * var(--u)); height: calc(1.33 * var(--u)); min-width: 16px; min-height: 16px; border-radius: 999px; border: none; padding: 0; background: #2E2A27; color: #FBFBF9; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background .2s ease, transform .2s ease, translate .35s ease;" style-hover="background: #2E2A27; transform: scale(1.1);"><sc-if value="{{ pp.ringOn }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; inset: -2px; border: 1.5px solid #FBFBF9; border-radius: 999px; pointer-events: none; animation: ringIn 1.3s ease-out 0s infinite;"></span><span style="position: absolute; inset: -2px; border: 1.5px solid #FBFBF9; border-radius: 999px; pointer-events: none; opacity: 0; animation: ringIn 1.3s ease-out .43s infinite;"></span><span style="position: absolute; inset: -2px; border: 1.5px solid #FBFBF9; border-radius: 999px; pointer-events: none; opacity: 0; animation: ringIn 1.3s ease-out .86s infinite;"></span></sc-if><svg viewBox="0 0 12 12" width="60%" height="60%" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M2 6h8"></path><path d="M6 2v8" style="opacity: {{ pp.vbar }}; transition: opacity .2s ease;"></path></svg></button></sc-if>
+      </div>
+    </sc-for>
+    <p style="position: absolute; z-index: 22; top: calc(calc(45.6 * var(--u)) - 25px + var(--dy) + 87.58 * var(--u)); left: 50%; transform: translate(-50%, -50%); margin: 0; font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: calc((calc(calc(3.927 * var(--u)) + 2px)) * .85); line-height: 1; color: #2E2A27; white-space: nowrap;">שיטה שבורה השוחקת את ארבעת עמודי התווך הקריטיים לחוסנה של ישראל</p>
+  </section>
+
+  <section id="why" style="--u: min(1vw, 12.15px); background: #FBFBF9; height: calc(100vh - 100px); min-height: 520px; box-sizing: border-box; padding: 0; display: flex; flex-direction: column; justify-content: center;">
+    <div dir="ltr" style="padding: 0 80px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 24px; align-items: center;">
+      <div style="grid-column: 3 / 11; grid-row: 1; align-self: stretch; border-top: 1px solid #A9D2D7; border-bottom: 1px solid #A9D2D7;"></div>
+      <h2 dir="rtl" style="grid-column: 7 / 11; grid-row: 1; padding: calc(1.4 * var(--u)) 0; margin: 0; font-family: 'Karantina', sans-serif; font-weight: 700; font-size: calc(((100vw - 424px) / 3 + 72px) * 0.235); line-height: .95; letter-spacing: 1px;"><span style="color: #3B4A6B;">מפסיקים עם<br>הפלסטרים –</span><br><span style="color: #C39228;">חייבים לתקן<br>מהשורש</span></h2>
+      <div dir="rtl" style="grid-column: 3 / 7; grid-row: 1; padding: calc(1.4 * var(--u)) 0; display: flex; flex-direction: column;">
+        <div style="display: flex; flex-direction: column; gap: calc(.7 * var(--u)); padding-bottom: calc(2.1 * var(--u)); border-bottom: 1px solid #A9D2D7; width: 95%;">
+          <h3 style="margin: 0; font-family: 'Karantina', sans-serif; font-weight: 700; font-size: calc(calc(((100vw - 424px) / 3 + 72px) * 0.108) + 6px); line-height: 1; letter-spacing: 1px; color: #17233A;">למה שיטה?</h3>
+          <p style="margin: 0; font-size: calc(((100vw - 424px) / 3 + 72px) * 0.026); line-height: 1.75; color: #2A3550;">השורש של בעיות היסוד המסכנות את ישראל הוא מבני, וימשיך להופיע שוב ושוב בכל ממשלה. לכן השינוי שעלינו להוביל הוא: בשיטת הממשל ובכללי המשחק.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: calc(.7 * var(--u)); padding-top: calc(2.1 * var(--u));">
+          <h3 style="margin: 0; font-family: 'Karantina', sans-serif; font-weight: 700; font-size: calc(calc(((100vw - 424px) / 3 + 72px) * 0.108) + 6px); line-height: 1; letter-spacing: 1px; color: #17233A;">למה עכשיו?</h3>
+          <p style="margin: 0; font-size: calc(((100vw - 424px) / 3 + 72px) * 0.026); line-height: 1.75; color: #2A3550;">כל יום שעובר מעמיק את הסיכון להתנגשות חברתית, כלכלית ובין רשויות השלטון, ומסכן את הביטחון של כולנו. שיטה וכללי משחק המתאימים לישראל של ימינו יעצרו את ההתדרדרות המסוכנת, ישיבו את האמון ויאפשרו לכולנו לבנות עתיד משותף במדינה בטוחה ומשגשגת. יש לנו עוד זמן לתקן, אך אין לנו עוד זמן לבזבז.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="principles" ref="{{ prRef }}" style="background: #EDEFF2; color: #17233A; min-height: calc(100vh - 100px); box-sizing: border-box; padding: 2vw 0; display: flex; flex-direction: column; justify-content: center;">
+    <div style="width: 64.1vw; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
+      <span style="font-size: clamp(9px, .57vw, 11px); font-weight: 500; letter-spacing: .35em; color: #C39228;">עקרונות לתיקון השיטה</span>
+      <h2 style="margin: .9vw 0 0; font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 3.3vw; line-height: 1; color: #3B4A6B;">מדמיינים את ישראל מחדש</h2>
+      <div style="position: relative; z-index: 2; margin-top: 3vw; width: 100%; box-sizing: border-box; background: #FFFFFF; border-radius: 8px; box-shadow: 0 2px 4px rgba(23,35,58,.08), 0 4px 0 #D9DCE1; padding: 1.6vw 1.35vw 1.7vw; display: flex; flex-direction: column; align-items: center; gap: .45vw; text-align: center;">
+        <p style="margin: 0; font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 2.6vw; line-height: 1; color: #17233A;">ישראל יהודית ודמוקרטית</p>
+        <p style="margin: .2vw 0 0; font-size: .83vw; line-height: 1.6; color: #2A3550;">בית לאומי לעם היהודי, במדינה דמוקרטית המבטיחה שוויון והגנה על זכויות יסוד לכל אזרחיה.</p>
+      </div>
+      <span style="position: relative; z-index: 1; width: 1px; height: 2vw; background: #A9D2D7; transform-origin: top; transform: {{ prStem }}; transition: transform .4s ease;"></span>
+      <div style="position: relative; z-index: 1; width: 100%;">
+        <span style="position: absolute; top: 0; left: 12.2%; right: 12.2%; height: 1px; background: #A9D2D7; transform: {{ prLine }}; transition: transform .5s ease .4s;"></span>
+        <div style="padding-top: 1.6vw; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.3vw;">
+          <article style="position: relative; background: #FFFFFF; border-radius: 8px; padding: 1.5vw 1.35vw 1.6vw; box-shadow: 0 2px 4px rgba(23,35,58,.08), 0 4px 0 #D9DCE1; display: flex; flex-direction: column; gap: .6vw; transform: {{ prCardT }}; opacity: {{ prCardO }}; transition: transform .7s cubic-bezier(.2,.7,.2,1) 0.85s, opacity .5s ease 0.85s;">
+          <span style="position: absolute; top: -1.6vw; left: 50%; width: 1px; height: 1.6vw; background: #A9D2D7;"></span>
+          <span style="font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 1.35vw; line-height: 1; color: #C39228;">01</span>
+          <h3 style="margin: 0; font-size: .83vw; font-weight: 700; color: #2A3550;">לכידות חברתית</h3>
+          <p style="margin: 0; font-size: .68vw; line-height: 1.7; color: #6B7385;">חיים משותפים תחת כללי משחק מוסדרים, ללא צורך להילחם ומבלי לוותר על זהות וערכים.</p>
+        </article>
+          <article style="position: relative; background: #FFFFFF; border-radius: 8px; padding: 1.5vw 1.35vw 1.6vw; box-shadow: 0 2px 4px rgba(23,35,58,.08), 0 4px 0 #D9DCE1; display: flex; flex-direction: column; gap: .6vw; transform: {{ prCardT }}; opacity: {{ prCardO }}; transition: transform .7s cubic-bezier(.2,.7,.2,1) 1.00s, opacity .5s ease 1.00s;">
+          <span style="position: absolute; top: -1.6vw; left: 50%; width: 1px; height: 1.6vw; background: #A9D2D7;"></span>
+          <span style="font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 1.35vw; line-height: 1; color: #C39228;">02</span>
+          <h3 style="margin: 0; font-size: .83vw; font-weight: 700; color: #2A3550;">כלכלה חזקה וצומחת</h3>
+          <p style="margin: 0; font-size: .68vw; line-height: 1.7; color: #6B7385;">תמריצים נכונים, אחריות כלכלית ונשיאה הוגנת בנטל.</p>
+        </article>
+          <article style="position: relative; background: #FFFFFF; border-radius: 8px; padding: 1.5vw 1.35vw 1.6vw; box-shadow: 0 2px 4px rgba(23,35,58,.08), 0 4px 0 #D9DCE1; display: flex; flex-direction: column; gap: .6vw; transform: {{ prCardT }}; opacity: {{ prCardO }}; transition: transform .7s cubic-bezier(.2,.7,.2,1) 1.15s, opacity .5s ease 1.15s;">
+          <span style="position: absolute; top: -1.6vw; left: 50%; width: 1px; height: 1.6vw; background: #A9D2D7;"></span>
+          <span style="font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 1.35vw; line-height: 1; color: #C39228;">03</span>
+          <h3 style="margin: 0; font-size: .83vw; font-weight: 700; color: #2A3550;">ממשל מבוזר, אסטרטגי ויעיל</h3>
+          <p style="margin: 0; font-size: .68vw; line-height: 1.7; color: #6B7385;">יכולת תכנון, ניהול סיכונים וביצוע לטווח ארוך, וחלוקת סמכויות ברורה ומאוזנת.</p>
+        </article>
+          <article style="position: relative; background: #FFFFFF; border-radius: 8px; padding: 1.5vw 1.35vw 1.6vw; box-shadow: 0 2px 4px rgba(23,35,58,.08), 0 4px 0 #D9DCE1; display: flex; flex-direction: column; gap: .6vw; transform: {{ prCardT }}; opacity: {{ prCardO }}; transition: transform .7s cubic-bezier(.2,.7,.2,1) 1.30s, opacity .5s ease 1.30s;">
+          <span style="position: absolute; top: -1.6vw; left: 50%; width: 1px; height: 1.6vw; background: #A9D2D7;"></span>
+          <span style="font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 1.35vw; line-height: 1; color: #C39228;">04</span>
+          <h3 style="margin: 0; font-size: .83vw; font-weight: 700; color: #2A3550;">כללי משחק יציבים</h3>
+          <p style="margin: 0; font-size: .68vw; line-height: 1.7; color: #6B7385;">שיטה חדשה עם כללי משחק ברורים ומוסכמים שלא משתנים לפי רוב פוליטי מזדמן.</p>
+        </article>
+        </div>
+      </div>
+      <p style="margin: 3.4vw 0 0; font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 3vw; line-height: 1; color: #8EC4CB; text-align: center; opacity: {{ prLastO }}; transform: {{ prLastT }}; transition: opacity .7s ease 1.9s, transform .7s ease 1.9s;">רק הציבור יכול לדרוש כללי משחק חדשים שיבטיחו את עתידנו.</p>
+    </div>
+  </section>
+
+  <section id="after" style="position: relative; background: #374A6D; padding: 0;">
+    <img src="assets/join-bg.png" alt="משפחה ישראלית בשדרה עם רכבת קלה" style="position: absolute; left: 0; width: 100%; top: {{ joinBgTop }}; height: {{ joinBgFill }}; object-fit: cover; display: block;">
+    <button onClick="{{ toggleMeter }}" style="position: absolute; z-index: 5; top: calc({{ joinBgTop }} + 20px); left: 20px; background: #FF1F8E; border: 1px solid #FF1F8E; border-radius: 5px; color: #FFFFFF; font-family: 'Heebo', sans-serif; font-weight: 600; font-size: 13px; padding: 8px 14px; cursor: pointer; transition: all .3s;" style-hover="background: #FFFFFF; color: #FF1F8E;">{{ meterBtnLabel }}</button>
+    <div style="position: relative; width: 66.8vw; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
+      <div style="width: 100%; min-height: calc(100vh - 100px); box-sizing: border-box; padding: 2vw 0; display: flex; flex-direction: column; align-items: center; justify-content: center;"><span style="font-size: clamp(9px, .57vw, 11px); font-weight: 500; letter-spacing: .35em; color: #C39228;">איך זה עובד</span>
+      <h2 style="margin: .7vw 0 0; font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 3.2vw; line-height: 1; color: #FBFBF9;">אני בעד. מה עכשיו?</h2>
+      <div ref="{{ stRef }}" style="position: relative; width: 100%; margin-top: 2.6vw; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2vw; perspective: 1400px;">
+        <article style="position: relative; background: #FFFFFF; border-radius: 8px; overflow: hidden; height: 17.9vw; display: flex; flex-direction: column; transform: {{ stCardT }}; opacity: {{ stCardO }}; backface-visibility: hidden; transition: transform .8s cubic-bezier(.2,.7,.2,1) 0.00s, opacity .4s ease 0.00s;">
+          <div style="position: relative; height: 10.6vw; flex: 0 0 auto;"><img src="assets/fstep-1.png" alt="אזרחים צועדים עם דגלי ישראל" style="width: 100%; height: 100%; object-fit: cover; display: block;"><div style="position: absolute; inset-inline: 0; bottom: 0; height: 4vw; background: linear-gradient(180deg, rgba(255,255,255,0), #FFFFFF);"></div></div>
+          <div style="padding: 0 1vw 1vw; display: flex; flex-direction: column; gap: .45vw;">
+            <h3 style="margin: 0; font-size: .8vw; font-weight: 700; color: #2A3550;">1. מצטרפים לדרישה הציבורית להתנעת התהליך</h3>
+            <p style="margin: 0; font-size: .62vw; line-height: 1.65; color: #6B7385;">מצטרפים לקבוצה הולכת וגדלה של אזרחים הדורשים שינוי מבני בשיטת הממשל ובכללי המשחק בישראל. כל הצטרפות מחזקת את הדרישה והופכת אותה לכוח ציבורי שמשפיע על המערכת הפוליטית.</p>
+          </div>
+        </article>
+        <article style="position: relative; background: #FFFFFF; border-radius: 8px; overflow: hidden; height: 17.9vw; display: flex; flex-direction: column; transform: {{ stCardT }}; opacity: {{ stCardO }}; backface-visibility: hidden; transition: transform .8s cubic-bezier(.2,.7,.2,1) 0.35s, opacity .4s ease 0.35s;">
+          <div style="position: relative; height: 10.6vw; flex: 0 0 auto;"><img src="assets/fstep-2.png" alt="מסירת מסמך לנציגי ציבור מול תקשורת" style="width: 100%; height: 100%; object-fit: cover; display: block;"><div style="position: absolute; inset-inline: 0; bottom: 0; height: 4vw; background: linear-gradient(180deg, rgba(255,255,255,0), #FFFFFF);"></div></div>
+          <div style="padding: 0 1vw 1vw; display: flex; flex-direction: column; gap: .45vw;">
+            <h3 style="margin: 0; font-size: .8vw; font-weight: 700; color: #2A3550;">2. הדרישה הופכת לחוק לשינוי מבנה השלטון</h3>
+            <p style="margin: 0; font-size: .62vw; line-height: 1.65; color: #6B7385;">יחד מקדמים את חוק שינוי מבנה השלטון (חוק שמ"ש), המגדיר תהליך יסודי וראשון מסוגו לתיקון שיטת הממשל בישראל.</p>
+          </div>
+        </article>
+        <article style="position: relative; background: #FFFFFF; border-radius: 8px; overflow: hidden; height: 17.9vw; display: flex; flex-direction: column; transform: {{ stCardT }}; opacity: {{ stCardO }}; backface-visibility: hidden; transition: transform .8s cubic-bezier(.2,.7,.2,1) 0.70s, opacity .4s ease 0.70s;">
+          <div style="position: relative; height: 10.6vw; flex: 0 0 auto;"><img src="assets/fstep-3.png" alt="דיון מקצועי סביב שולחן" style="width: 100%; height: 100%; object-fit: cover; display: block;"><div style="position: absolute; inset-inline: 0; bottom: 0; height: 4vw; background: linear-gradient(180deg, rgba(255,255,255,0), #FFFFFF);"></div></div>
+          <div style="padding: 0 1vw 1vw; display: flex; flex-direction: column; gap: .45vw;">
+            <h3 style="margin: 0; font-size: .8vw; font-weight: 700; color: #2A3550;">3. הציבור שותף בעיצוב ומכריע</h3>
+            <p style="margin: 0; font-size: .62vw; line-height: 1.65; color: #6B7385;">חוק שמ"ש מעביר לאזרחים את המושכות לגבש חלופות, לדון בהן ולבסוף להכריע במשאל עם מחייב.</p>
+          </div>
+        </article>
+        <span style="position: absolute; z-index: 2; top: 8.8vw; left: calc((100% - 2.4vw) * 2 / 3 + 1.8vw); width: 2.6vw; height: 2.6vw; transform: translate(-50%, -50%) scale({{ stArrowS }}); opacity: {{ stArrowO }}; transition: transform .45s cubic-bezier(.3,1.6,.5,1) 1.35s, opacity .3s ease 1.35s; border-radius: 50%; background: #C39228; border: .1vw solid #FBFBF9; color: #FBFBF9; display: flex; align-items: center; justify-content: center; font-size: 1.3vw; line-height: 1;">←</span>
+        <span style="position: absolute; z-index: 2; top: 8.8vw; left: calc((100% - 2.4vw) / 3 + .6vw); width: 2.6vw; height: 2.6vw; transform: translate(-50%, -50%) scale({{ stArrowS }}); opacity: {{ stArrowO }}; transition: transform .45s cubic-bezier(.3,1.6,.5,1) 1.6s, opacity .3s ease 1.6s; border-radius: 50%; background: #C39228; border: .1vw solid #FBFBF9; color: #FBFBF9; display: flex; align-items: center; justify-content: center; font-size: 1.3vw; line-height: 1;">←</span>
+      </div>
+      <a href="#join" style="margin-top: calc(1.8vw + 20px); display: flex; align-items: center; height: 2.08vw; padding: 0 1.46vw; border-radius: 999px; background: #17233A; border: 1px solid #17233A; color: #FBFBF9; font-weight: 700; font-size: .68vw; transition: all .3s;" style-hover="background: #FBFBF9; color: #17233A; border-color: #FBFBF9;">לקריאת התכנית</a>
+      </div>
+      <div id="s6" style="width: 100%; min-height: calc(100vh - 100px); display: flex; flex-direction: column; justify-content: center;"><div id="join" style="width: 100%; margin-top: 0; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 40px rgba(15,23,40,.35);">
+        <div style="background: #17233A; padding: 1.4vw 1.4vw 1.2vw; display: flex; flex-direction: column; gap: .9vw;">
+          <h2 style="margin: 0; text-align: center; font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 2.3vw; line-height: 1.05; color: #FBFBF9;">ישראל נמצאת ברגע מכונן. כל הצטרפות מוסיפה לכוח הציבורי שיוביל לשינוי.</h2>
+          <sc-if value="{{ meterOn }}" hint-placeholder-val="{{ false }}"><div style="display: flex; flex-direction: column; gap: .5vw; padding: 0 1vw;">
+            <div style="align-self: flex-start; margin-inline-start: 4vw; display: flex; align-items: baseline; gap: .45vw; color: #FBFBF9;"><span style="font-size: .8vw;">כבר יש</span><span style="font-size: 2.4vw; font-weight: 700; line-height: 1;">{{ meterCountLabel }}</span><span style="font-size: .8vw;">מאיתנו</span></div>
+            <div style="height: 5px; border-radius: 3px; background: #D9DCE1; overflow: hidden; display: flex;"><span style="width: {{ meterWidth }}; background: #C39228;"></span></div>
+          </div></sc-if>
+          <p style="margin: 0; text-align: center; font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 2.3vw; line-height: 1.05; color: #8EC4CB;">כל חתימה מקרבת אותנו לשינוי.</p>
+        </div>
+        <div style="background: #EDEFF2; padding: 1.4vw 2vw 1.8vw; display: flex; flex-direction: column; align-items: center; gap: 1vw;">
+          <h3 style="margin: 0; font-size: .8vw; font-weight: 700; color: #17233A;">הצטרפו לדרישה האזרחית לתיקון השיטה בישראל</h3>
+          <form onSubmit="{{ onSubmit }}" style="width: 40.4vw; display: flex; flex-direction: column; gap: .5vw; align-items: center;">
+            <input type="text" required="" placeholder="שם מלא *" style="width: 100%; height: 2.6vw; border: 1px solid #9CC9CF; border-radius: 999px; background: #FFFFFF; padding: 0 1.15vw; font-size: .78vw; color: #17233A;" style-focus="outline: none; border-color: #C39228;">
+            <div style="width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: .5vw;"><input type="email" required="" placeholder="אימייל *" style="width: 100%; height: 2.6vw; border: 1px solid #9CC9CF; border-radius: 999px; background: #FFFFFF; padding: 0 1.15vw; font-size: .78vw; color: #17233A;" style-focus="outline: none; border-color: #C39228;"><input type="tel" placeholder="טלפון" style="width: 100%; height: 2.6vw; border: 1px solid #9CC9CF; border-radius: 999px; background: #FFFFFF; padding: 0 1.15vw; font-size: .78vw; color: #17233A;" style-focus="outline: none; border-color: #C39228;"></div>
+            <button type="submit" style="margin-top: 1vw; height: 2.5vw; padding: 0 1.35vw; border-radius: 999px; background: #C39228; border: 1px solid #C39228; color: #FBFBF9; font-weight: 700; font-size: .68vw; cursor: pointer; transition: all .3s;" style-hover="background: transparent; color: #C39228;">{{ submitLabel }}</button>
+            <label style="display: flex; align-items: center; gap: .42vw; font-size: .63vw; color: #17233A; cursor: pointer;"><input type="checkbox" required="" style="width: .73vw; height: .73vw; accent-color: #C39228;">אני מאשר את <a href="#" style="color: #17233A; text-decoration: underline;">תנאי השימוש</a> ו<a href="#" style="color: #17233A; text-decoration: underline;">מדיניות הפרטיות</a></label>
+          </form>
+          <p style="margin: .4vw 0 0; max-width: 34vw; text-align: center; font-size: .68vw; line-height: 1.7; color: #2A3550;">תמיכה בדרישה אינה כרוכה בהזדהות פוליטית עם אף מחנה, והיא חיונית לכל אזרח/ית הדואג/ת לעתיד המדינה. אנו פועלים לייצר קריאה ציבורית רחבה מכל קצוות הקשת הפוליטית והאזרחית לכינון תהליך השינוי במערכת ההפעלה הישראלית.</p>
+        </div>
+      </div></div>
+    </div>
+    <div style="height: 3.4vw;"></div>
+  </section>
+
+  <section id="about" style="background: #FBFBF9; color: #17233A; padding: 3vw 0 3.6vw;">
+    <div style="width: 52vw; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center;">
+      <span style="font-size: clamp(9px, .57vw, 11px); font-weight: 500; letter-spacing: .35em; color: #C39228;">אודות</span>
+      <h2 style="margin: .6vw 0 0; font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 3.2vw; line-height: 1; color: #3B4A6B;">מי עומד מאחורי היוזמה</h2>
+      <p style="margin: 1.4vw 0 0; font-size: .9vw; line-height: 1.8; color: #2A3550;"><strong style="color: #17233A;">ISFI – המכון האסטרטגי לעתיד ישראל</strong> הוקם על ידי פרופ׳ יוג׳ין קנדל ורון צור כמרחב חשיבה ושותפות לעיצוב פתרונות אסטרטגיים ומבניים לאתגריה הקיומיים של מדינת ישראל. מטרתנו להעניק תקווה לאזרחי ישראל ולקדם שינוי מבני בשיטת הממשל ובכללי המשחק, שיבטיח את חוסנה ועתידה של ישראל לשנים ארוכות.</p>
+    </div>
+  </section>
+
+  <section id="faq" style="background: #EDEFF2; color: #17233A; padding: 2.6vw 0 3.6vw;">
+    <div style="width: 65.1vw; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
+      
+      <h2 style="margin: .7vw 0 0; font-family: 'Karantina', sans-serif; font-weight: 700; letter-spacing: 1px; font-size: 3.3vw; line-height: 1; color: #3B4A6B;">שאלות ותשובות</h2>
+      <div style="width: 100%; margin-top: 1.6vw; display: flex; flex-direction: column; gap: .73vw;">
+        <sc-for list="{{ faq }}" as="row" hint-placeholder-count="8">
+          <div style="background: #FFFFFF; border-radius: 8px; overflow: hidden;">
+            <button onClick="{{ row.toggle }}" style="width: 100%; min-height: 3.54vw; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: .83vw; padding: 0 1.4vw; text-align: start; font-size: .8vw; font-weight: 700; color: #17233A;">
+              <span>{{ row.q }}</span>
+              <img src="icons/down-chevron.svg" alt="" style="flex: 0 0 auto; width: .83vw; height: .83vw; transform: {{ row.chevRot }}; transition: transform .3s; filter: invert(58%) sepia(62%) saturate(560%) hue-rotate(5deg) brightness(92%);">
+            </button>
+            <sc-if value="{{ row.open }}" hint-placeholder-val="{{ false }}">
+              <p style="margin: 0; padding: 0 1.4vw 1.3vw; max-width: 34vw; font-size: .72vw; line-height: 1.75; color: #6B7385;">{{ row.a }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer" style="background: #17233A; color: #FBFBF9; padding: 3.4vw 0 2vw;">
+    <div style="width: 66.9vw; margin: 0 auto; display: flex; flex-direction: column;">
+      <div style="display: grid; grid-template-columns: 1.6fr .7fr .9fr 1.8fr; gap: 3vw; align-items: start;">
+        <div style="display: flex; flex-direction: column; gap: 1vw;">
+          <img src="assets/logo-he-color.svg" alt="ISFI" style="height: 3vw; width: auto; align-self: flex-start; filter: brightness(0) invert(1);">
+          <p style="margin: 0; font-size: .7vw; line-height: 1.8; color: #C7D0DC;">המכון האסטרטגי לעתיד ישראל – ISFI. עמותה עצמאית, בלתי-מפלגתית, למחקר אסטרטגי ולקידום רפורמה מערכתית אחראית.</p>
+          <div style="display: flex; gap: .8vw; margin-top: .6vw;">
+            <a href="#" aria-label="LinkedIn"><img src="icons/linkedin.svg" alt="" style="width: .73vw; height: .73vw; filter: brightness(0) invert(.8);"></a>
+            <a href="#" aria-label="Facebook"><img src="icons/facebook.svg" alt="" style="width: .73vw; height: .73vw; filter: brightness(0) invert(.8);"></a>
+            <a href="#" aria-label="YouTube"><img src="icons/youtube.svg" alt="" style="width: .73vw; height: .73vw; filter: brightness(0) invert(.8);"></a>
+            <a href="mailto:info@isfi.org" aria-label="Email"><img src="icons/mail.svg" alt="" style="width: .73vw; height: .73vw; filter: brightness(0) invert(.8);"></a>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: .7vw; font-size: .7vw;">
+          <span style="letter-spacing: .3em; font-size: .57vw; color: #C39228;">ניווט</span>
+          <a href="#pillars" style="color: #C7D0DC;">הדרישה</a><a href="#principles" style="color: #C7D0DC;">המצע</a><a href="#about" style="color: #C7D0DC;">המומחים</a><a href="#join" style="color: #C7D0DC;">חתימה</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: .7vw; font-size: .7vw;">
+          <span style="letter-spacing: .3em; font-size: .57vw; color: #C39228;">צרו קשר</span>
+          <a href="mailto:info@isfi.org" style="color: #C7D0DC;">info@isfi.org</a><span style="color: #C7D0DC;">תל אביב, ישראל</span><a href="#faq" style="color: #C7D0DC;">שאלות נפוצות</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: .8vw;">
+          <span style="letter-spacing: .3em; font-size: .57vw; color: #C39228;">הישארו בתמונה</span>
+          <p style="margin: 0; font-size: .7vw; color: #C7D0DC;">ניירות עמדה, כנסים ועדכונים מהקמפיין – ישירות למייל</p>
+          <form onSubmit="{{ onNewsletter }}" style="display: flex; flex-wrap: wrap; gap: .6vw; align-items: center;">
+            <input type="email" required="" placeholder="אימייל" style="flex: 1; min-width: 0; height: 2.08vw; border-radius: 999px; border: none; background: #FFFFFF; padding: 0 .94vw; color: #17233A; font-size: .78vw;" style-focus="outline: 2px solid #C39228;">
+            <button type="submit" style="height: 2.08vw; padding: 0 1.15vw; border-radius: 999px; background: #C39228; border: 1px solid #C39228; color: #FBFBF9; font-weight: 700; font-size: .63vw; cursor: pointer; transition: all .3s;" style-hover="background: transparent; color: #C39228;">{{ newsletterLabel }}</button>
+            <label style="flex: 0 0 100%; display: flex; align-items: center; gap: .42vw; font-size: .63vw; color: #C7D0DC; cursor: pointer;"><input type="checkbox" required="" style="width: .73vw; height: .73vw; accent-color: #C39228;">אני מאשר את <a href="#" style="color: #C7D0DC; text-decoration: underline;">תנאי השימוש</a> ו<a href="#" style="color: #C7D0DC; text-decoration: underline;">מדיניות הפרטיות</a></label>
+          </form>
+        </div>
+      </div>
+      <div style="margin-top: 2.6vw; padding-top: 1.4vw; border-top: 1px solid rgba(251,251,249,.15); display: flex; justify-content: space-between; gap: .83vw; font-size: .6vw; color: #8C97A8;">
+        <span>© 2026 ISFI – המכון האסטרטגי לעתיד ישראל. כל הזכויות שמורות.</span>
+        <span>עמותה א-אזרחית ובלתי-מפלגתית.</span>
+      </div>
+    </div>
+  </footer>
+  <div style="position: fixed; top: 0; bottom: 0; left: 50%; transform: translateX(-50%); width: {{ frameW }}; max-width: 100%; z-index: 190; pointer-events: none; display: {{ gridDisplay }};">
+    <div dir="ltr" style="height: 100%; padding: 0 {{ gridMargin }}; display: grid; grid-template-columns: repeat({{ gridCount }}, minmax(0, 1fr)); column-gap: {{ gridGutter }};">
+      <sc-for list="{{ gridCols }}" as="gc" hint-placeholder-count="12">
+        <div style="position: relative; height: 100%; border-left: .5px solid rgba(255,47,208,.75); border-right: .5px solid rgba(255,47,208,.75); background: rgba(255,47,208,.06);">
+          <span style="position: absolute; top: 84px; left: 50%; transform: translateX(-50%); font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #FF2FD0;">{{ gc }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-admin="1" dir="ltr" lang="en" onClick="{{ closeAdmin }}" style="position: fixed; inset: 0; z-index: 160; background: rgba(0,0,0,.45); visibility: {{ admVis }}; opacity: {{ admOpacity }}; transition: opacity .3s ease, visibility 0s linear {{ admVisDelay }};">
+    <aside onClick="{{ stopProp }}" style="position: absolute; top: 0; bottom: 0; left: 0; width: min(1360px, 100vw); display: flex; background: #0c0c0c; color: #F2F2F2; font-family: Outfit, sans-serif; font-size: 14px; line-height: 1.5; text-align: left; transform: translateX({{ admX }}); transition: transform .6s cubic-bezier(.22,.8,.25,1); box-shadow: 20px 0 60px rgba(0,0,0,.5);">
+      <nav style="flex: 0 0 240px; width: 240px; display: flex; flex-direction: column; background: #080808; border-right: 1px solid #262626;">
+        <div style="padding: 24px 20px 22px; border-bottom: 1px solid #262626; display: flex; flex-direction: column; gap: 4px;">
+          <img src="assets/logo-en-color.svg" alt="ISFI" style="height: 34px; width: auto; align-self: flex-start; filter: brightness(0) invert(1);">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .24em; color: #C39228;">SITE ADMIN</span>
+        </div>
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 14px 10px; display: flex; flex-direction: column; gap: 2px;">
+          <sc-for list="{{ admTabs }}" as="at" hint-placeholder-count="7">
+            <button onClick="{{ at.go }}" style="display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; text-align: left; padding: 12px; border-radius: 6px; border: none; background: {{ at.bg }}; color: {{ at.fg }}; font-family: Outfit, sans-serif; font-weight: 800; font-size: 12px; letter-spacing: .12em; cursor: {{ at.cur }}; box-shadow: {{ at.bar }}; transition: background .3s, color .3s;">
+              <span>{{ at.label }}</span>
+              <span style="display: {{ at.soonDisp }}; font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 9px; letter-spacing: .14em; color: rgba(255,255,255,.35); border: 1px solid rgba(255,255,255,.14); border-radius: 3px; padding: 2px 5px;">SOON</span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="padding: 18px 20px; border-top: 1px solid #262626; display: flex; flex-direction: column; gap: 4px;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .2em; color: rgba(255,255,255,.4); margin-bottom: 6px;">PLATFORM</span>
+          <sc-for list="{{ devRadio }}" as="dv" hint-placeholder-count="3">
+            <button onClick="{{ dv.go }}" style="display: flex; align-items: center; gap: 10px; background: transparent; border: none; padding: 5px 0; cursor: pointer; text-align: left;">
+              <span style="width: 22px; display: flex; flex-direction: column; align-items: center; gap: 1px;"><span style="width: {{ dv.w }}; height: {{ dv.h }}; border: 1.5px solid {{ dv.fg }}; border-radius: 2px; box-sizing: border-box;"></span><span style="display: {{ dv.standDisp }}; width: 8px; height: 2px; background: {{ dv.fg }}; border-radius: 1px;"></span></span>
+              <span style="font-family: Outfit, sans-serif; font-weight: 800; font-size: 12px; letter-spacing: .14em; color: {{ dv.fg }};">{{ dv.label }}</span>
+            </button>
+          </sc-for>
+          <button onClick="{{ closeAdmin }}" style="margin-top: 12px; background: transparent; border: 1px solid #262626; border-radius: 5px; color: #F2F2F2; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; padding: 9px 12px; cursor: pointer; transition: all .3s;" style-hover="background: #C39228; border-color: #C39228; color: #000;">✕ VIEW SITE</button>
+        </div>
+      </nav>
+
+      <div style="flex: 0 0 300px; width: 300px; display: flex; flex-direction: column; background: #111; border-right: 1px solid #262626;">
+        <div style="padding: 26px 20px 16px; border-bottom: 1px solid #262626; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .2em; color: rgba(255,255,255,.45);">{{ admTabTitle }}</div>
+        <div style="flex: 1; min-height: 0; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 4px;">
+          <sc-for list="{{ admItems }}" as="it" hint-placeholder-count="5">
+            <button onClick="{{ it.go }}" style="display: flex; flex-direction: column; gap: 2px; width: 100%; text-align: left; padding: 11px 12px; border-radius: 6px; border: none; background: {{ it.bg }}; cursor: pointer; transition: background .3s;">
+              <span style="font-family: Outfit, sans-serif; font-weight: 800; font-size: 13px; letter-spacing: .04em; color: {{ it.fg }};">{{ it.label }}</span>
+              <span style="font-size: 12px; color: {{ it.dfg }};">{{ it.desc }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="flex: 1; min-width: 0; overflow-y: auto; padding: 32px 40px 48px; display: flex; flex-direction: column; gap: 28px;">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .2em; color: #C39228;">{{ admTabTitle }}</span>
+            <h2 style="margin: 0; font-family: Karantina, sans-serif; font-weight: 700; font-size: 44px; line-height: 1; letter-spacing: 1px;">{{ edTitle }}</h2>
+            <p style="margin: 0; font-size: 13px; color: rgba(255,255,255,.55);">{{ edDesc }}</p>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <button onClick="{{ undo }}" title="Undo (Ctrl+Z)" style="background: transparent; border: 1px solid #262626; border-radius: 5px; color: {{ undoFg }}; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; padding: 7px 10px; cursor: pointer;">↶ UNDO</button>
+            <button onClick="{{ redo }}" title="Redo (Ctrl+Y)" style="background: transparent; border: 1px solid #262626; border-radius: 5px; color: {{ redoFg }}; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; padding: 7px 10px; cursor: pointer;">REDO ↷</button>
+          </div>
+        </div>
+
+        <sc-if value="{{ edIsPalette }}" hint-placeholder-val="{{ false }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px;">
+            <sc-for list="{{ paletteRows }}" as="c" hint-placeholder-count="6">
+              <div style="border: 1px solid #262626; border-radius: 8px; overflow: hidden; background: #141414;">
+                <div style="height: 96px; background: {{ c.hex }};"></div>
+                <div style="padding: 12px 14px; display: flex; flex-direction: column; gap: 2px;">
+                  <span style="font-family: Outfit, sans-serif; font-weight: 800; font-size: 13px;">{{ c.name }}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #C39228;">{{ c.hex }}</span>
+                  <span style="font-size: 12px; color: rgba(255,255,255,.5);">{{ c.role }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ edIsType }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <sc-for list="{{ fontRows }}" as="f" hint-placeholder-count="2">
+              <div style="border: 1px solid #262626; border-radius: 8px; padding: 20px 22px; background: #141414; display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; justify-content: space-between; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: rgba(255,255,255,.45);"><span>{{ f.role }}</span><span>{{ f.family }} · {{ f.weight }}</span></div>
+                <div dir="rtl" style="font-family: {{ f.css }}; font-size: {{ f.size }}; line-height: 1.1; color: #F2F2F2;">{{ f.sample }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ edShowLogo }}" hint-placeholder-val="{{ false }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px;">
+            <sc-for list="{{ logoRows }}" as="lg" hint-placeholder-count="2">
+              <div style="border: 1px solid #262626; border-radius: 8px; overflow: hidden; background: #141414;">
+                <div style="height: 150px; background: #FBFBF9; display: flex; align-items: center; justify-content: center;"><img src="{{ lg.src }}" alt="{{ lg.name }}" style="max-height: 90px; max-width: 80%;"></div>
+                <div style="padding: 12px 14px; display: flex; justify-content: space-between; gap: 8px;"><span style="font-family: Outfit, sans-serif; font-weight: 800; font-size: 13px;">{{ lg.name }}</span><a href="{{ lg.src }}" target="_blank" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #C39228;">OPEN</a></div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ edIsMenu }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: grid; grid-template-columns: 1fr 180px 96px; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: rgba(255,255,255,.4); padding: 0 12px;"><span>LABEL</span><span>LINKS TO</span><span></span></div>
+            <sc-for list="{{ navRows }}" as="nr" hint-placeholder-count="5">
+              <div style="display: grid; grid-template-columns: 1fr 180px 96px; gap: 10px; align-items: center; padding: 8px 12px; border: 1px solid #262626; border-radius: 6px; background: #141414;">
+                <input type="text" dir="rtl" value="{{ nr.label }}" onChange="{{ nr.onLabel }}" style="min-width: 0; background: transparent; border: none; outline: none; color: #F2F2F2; font-family: Heebo, sans-serif; font-weight: 500; font-size: 15px; padding: 4px 0;">
+                <select value="{{ nr.href }}" onChange="{{ nr.onHref }}" style="background: #0c0c0c; border: 1px solid #262626; border-radius: 5px; color: #F2F2F2; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 6px 8px;">
+                  <sc-for list="{{ anchorOptions }}" as="ao" hint-placeholder-count="8"><option value="{{ ao.value }}">{{ ao.label }}</option></sc-for>
+                </select>
+                <div style="display: flex; justify-content: flex-end; gap: 4px;">
+                  <button onClick="{{ nr.up }}" aria-label="Move up" style="width: 26px; height: 26px; border: none; border-radius: 4px; background: transparent; color: rgba(255,255,255,.55); cursor: pointer;" style-hover="background: #262626; color: #fff;">↑</button>
+                  <button onClick="{{ nr.down }}" aria-label="Move down" style="width: 26px; height: 26px; border: none; border-radius: 4px; background: transparent; color: rgba(255,255,255,.55); cursor: pointer;" style-hover="background: #262626; color: #fff;">↓</button>
+                  <button onClick="{{ nr.del }}" aria-label="Delete" style="width: 26px; height: 26px; border: none; border-radius: 4px; background: transparent; color: rgba(255,255,255,.55); font-size: 15px; cursor: pointer;" style-hover="background: #b3261e; color: #fff;">×</button>
+                </div>
+              </div>
+            </sc-for>
+            <div style="display: flex; gap: 8px; margin-top: 6px;">
+              <button onClick="{{ addNav }}" style="background: #C39228; border: 1px solid #C39228; border-radius: 5px; color: #000; font-family: Outfit, sans-serif; font-weight: 800; font-size: 12px; letter-spacing: .1em; padding: 9px 16px; cursor: pointer; transition: all .3s;" style-hover="background: transparent; color: #C39228;">+ ADD LINK</button>
+              <button onClick="{{ resetNav }}" style="background: transparent; border: none; color: rgba(255,255,255,.5); font-family: Outfit, sans-serif; font-weight: 800; font-size: 12px; letter-spacing: .1em; padding: 9px 10px; cursor: pointer; transition: color .3s;" style-hover="color: #C39228;">RESET TO DEFAULT</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ edIsSection }}" hint-placeholder-val="{{ false }}">
+          <div style="border: 1px solid #262626; border-radius: 8px; background: #141414; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; gap: 32px; flex-wrap: wrap;">
+              <div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: rgba(255,255,255,.4);">ANCHOR</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #C39228;">{{ secAnchor }}</span></div>
+              <div style="display: flex; flex-direction: column; gap: 2px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: rgba(255,255,255,.4);">IN HEADER MENU</span><span style="font-size: 13px;">{{ secInMenu }}</span></div>
+            </div>
+            <button onClick="{{ jumpToSection }}" style="align-self: flex-start; background: #C39228; border: 1px solid #C39228; border-radius: 5px; color: #000; font-family: Outfit, sans-serif; font-weight: 800; font-size: 12px; letter-spacing: .1em; padding: 9px 16px; cursor: pointer; transition: all .3s;" style-hover="background: transparent; color: #C39228;">GO TO SECTION →</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ edIsSitemap }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <sc-for list="{{ sitemapRows }}" as="sm" hint-placeholder-count="10">
+              <div style="margin-left: {{ sm.indent }}; display: flex; align-items: center; gap: 10px; padding: 9px 12px; border: 1px solid {{ sm.bd }}; border-radius: 6px; background: {{ sm.bg }};">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #C39228;">{{ sm.mark }}</span>
+                <span dir="auto" style="font-family: Heebo, Outfit, sans-serif; font-weight: 700; font-size: 14px;">{{ sm.label }}</span>
+                <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,.4);">{{ sm.meta }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ edShowMedia }}" hint-placeholder-val="{{ false }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px;">
+            <sc-for list="{{ mediaRows }}" as="md" hint-placeholder-count="6">
+              <div style="border: 1px solid #262626; border-radius: 8px; overflow: hidden; background: #141414;">
+                <div style="height: 130px; background: #1c1c1c; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                  <sc-if value="{{ md.isImg }}" hint-placeholder-val="{{ false }}"><img src="{{ md.path }}" alt="{{ md.name }}" style="width: 100%; height: 100%; object-fit: contain;"></sc-if>
+                  <sc-if value="{{ md.isVideo }}" hint-placeholder-val="{{ false }}"><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .2em; color: rgba(255,255,255,.5);">▶ VIDEO</span></sc-if>
+                </div>
+                <div style="padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                  <span style="font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ md.name }}</span>
+                  <a href="{{ md.path }}" target="_blank" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #C39228; flex: 0 0 auto;">OPEN</a>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ edIsSoon }}" hint-placeholder-val="{{ false }}">
+          <div style="border: 1px dashed #333; border-radius: 8px; padding: 40px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .2em; color: rgba(255,255,255,.4);">COMING SOON</div>
+        </sc-if>
+      </div>
+    </aside>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;signatureCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:12400,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:0,&quot;max&quot;:1000000,&quot;step&quot;:100,&quot;section&quot;:&quot;תוכן&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Preview&quot;},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Desktop&quot;,&quot;Tablet&quot;,&quot;Mobile&quot;],&quot;default&quot;:&quot;Desktop&quot;,&quot;tsType&quot;:&quot;'Desktop' | 'Tablet' | 'Mobile'&quot;,&quot;section&quot;:&quot;Preview&quot;},&quot;adminEnabled&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Preview&quot;}}">
+class Component extends DCLogic {
+  state = {
+    narrow: typeof window !== 'undefined' && window.innerWidth < 760,
+    split: 98.5,
+    dragging: false,
+    hovering: false,
+    pillarHover: -1,
+    pillarExpanded: -1,
+    openIndex: 0,
+    signed: false,
+    subscribed: false
+  };
+
+  beforeRef = React.createRef();
+  afterRef = React.createRef();
+  heroRef = React.createRef();
+  h1RestRef = React.createRef();
+  isrRef = React.createRef();
+  fadeRef = React.createRef();
+  mtRef = React.createRef();
+  h1Prog = 0;
+  setH1 = (p) => {
+    this.h1Prog = Math.max(0, Math.min(1, p));
+    let shift = this.state.h1Shift || 0;
+    if (this.h1Prog > 0 && !this.state.h1P && this.isrRef.current && this.mtRef.current) {
+      const a = this.isrRef.current.getBoundingClientRect(), b = this.mtRef.current.getBoundingClientRect();
+      shift = Math.max(0, (a.left - b.right) / 2);
+    }
+    this.setState({ h1P: this.h1Prog, h1Shift: shift });
+  };
+  runIntro = () => {
+    const at = (ms, fn) => this._introT.push(setTimeout(fn, ms));
+    this._introT = [];
+  };
+  playSentence = () => {
+    if (this._sentenceOn) return;
+    this._sentenceOn = true;
+    const at = (ms, fn) => this._introT.push(setTimeout(fn, ms));
+    this.h1Lock = Date.now() + 5600;
+    this.setState({ introStage: 1 });
+    at(2000, () => this.setState({ introStage: 2 }));
+    at(3200, () => this.setState({ introStage: 3, mtWpx: this.mtRef.current ? this.mtRef.current.scrollWidth + 4 : 400 }));
+    at(3900, () => { this._sentenceReady = true; });
+    at(3900, () => this.collapseSentence());
+  };
+  reverseIntro = () => {
+    (this._introT || []).forEach(clearTimeout);
+    this._introT = [];
+    const at = (ms, fn) => this._introT.push(setTimeout(fn, ms));
+    this.h1Prog = 0;
+    this.setState({ h1P: 0, introStage: 3 });
+    at(900, () => this.setState({ introStage: 2 }));
+    at(1800, () => this.setState({ introStage: 0 }));
+    at(3000, () => { this._sentenceOn = false; this._sentenceReady = false; this._collapsed = false; });
+  };
+  collapseSentence = () => {
+    if (!this._sentenceReady || this._collapsed) return;
+    this._collapsed = true;
+    this.setState({ introStage: 4 });
+    this.setH1(1);
+    this._introT.push(setTimeout(() => this.setState({ introStage: 5 }), 1300));
+  };
+  onHeroShrink = () => {
+    if (this._hkraf) return;
+    this._hkraf = requestAnimationFrame(() => {
+      this._hkraf = null;
+      const q = Math.max(0, Math.min(1, window.scrollY / (window.innerHeight * 0.6)));
+      const k = +(1 - 0.15 * q).toFixed(4);
+      if (k !== this.state.heroK) this.setState({ heroK: k });
+    });
+  };
+  onHeroScroll = () => {};
+  h1Lock = 0;
+  heroShrunk = false;
+  shrinkShift() {
+    const u = (0.85 * window.innerHeight - 100) / 49.69 * 0.68;
+    return Math.max(0, Math.round(93.355 * u + 9));
+  }
+  animShrink(toShrunk) {
+    const k0 = this.state.heroK ?? 1, k1 = toShrunk ? 0.68 : 1;
+    const y0 = window.scrollY, y1 = toShrunk ? this.shrinkShift() : 0;
+    const t0 = performance.now(), dur = 1500;
+    const ease = (x) => 1 - Math.pow(1 - x, 3);
+    this.heroShrunk = toShrunk;
+    if (this._shraf) cancelAnimationFrame(this._shraf);
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / dur), e = ease(t);
+      this.setState({ heroK: +(k0 + (k1 - k0) * e).toFixed(4) });
+      window.scrollTo({ top: y0 + (y1 - y0) * e, behavior: 'instant' });
+      if (t < 1) this._shraf = requestAnimationFrame(step);
+      else if (toShrunk) { clearTimeout(this._dropT); this._dropT = setTimeout(this.dropStones, 900); }
+    };
+    if (!toShrunk) { clearTimeout(this._dropT); this.resetStones(); }
+    this._shraf = requestAnimationFrame(step);
+  }
+  dropped = false;
+  shatterBook = (book, sec, floor) => {
+    const sr = sec.getBoundingClientRect(), br = book.getBoundingClientRect();
+    const bw = book.offsetWidth, bh = book.offsetHeight;
+    const cx = br.left + br.width / 2 - sr.left, cy = br.top + br.height / 2 - sr.top;
+    const meta = [[0, 0, .38, .55], [.3, 0, .42, .5], [.6, 0, .4, .6], [0, .45, .6, .55], [.45, .5, .55, .5]];
+    const fly = [[-62, -34, -118], [-14, -46, 74], [48, -30, 132], [-38, -14, -46], [54, -18, 58]];
+    book.getAnimations().forEach(a => a.cancel());
+    book.style.opacity = 0;
+    [...sec.querySelectorAll('[data-shard]')].forEach((el, j) => {
+      const [fx, fy, fw, fh] = meta[j], [dx, up, rot] = fly[j];
+      const w = fw * bw, h = fh * bh;
+      const left = cx - bw / 2 + fx * bw, top = cy - bh / 2 + fy * bh;
+      el.style.left = left + 'px'; el.style.top = top + 'px'; el.style.width = w + 'px';
+      const drop = Math.max(0, (floor - sr.top) - (top + h)) + h * .15;
+      el.animate([
+        { opacity: 1, translate: '0px 0px', rotate: '0deg' },
+        { opacity: 1, translate: dx * .55 + 'px ' + up + 'px', rotate: rot * .5 + 'deg', offset: .35, easing: 'cubic-bezier(.4,0,1,1)' },
+        { opacity: 1, translate: dx + 'px ' + drop + 'px', rotate: rot + 'deg', offset: 1 }
+      ], { duration: 640 + j * 50, easing: 'cubic-bezier(.2,.6,.4,1)', fill: 'forwards' });
+    });
+    const shakeEls = [...sec.children].filter(el => !el.hasAttribute('data-fall') && !el.hasAttribute('data-shard') && el.tagName !== 'H1' && !el.querySelector('img[src*="v4-sky"]'));
+    shakeEls.forEach(el => el.animate([{ translate: '0px 2.5px' }, { translate: '-2px -1.5px' }, { translate: '1.5px 1px' }, { translate: '-1.5px 1.5px' }, { translate: '1.2px -1px' }, { translate: '-1px .8px' }, { translate: '.6px -.5px' }, { translate: '0px 0px' }], { duration: 520, easing: 'linear' }));
+  };
+  clearFallen = () => {
+    document.querySelectorAll('#top [data-fall], #top [data-shard]').forEach(el => {
+      const o = getComputedStyle(el).opacity;
+      (el.getAnimations ? el.getAnimations() : []).forEach(an => an.cancel());
+      el.style.opacity = 0;
+    });
+  };
+  resetStones = () => {
+    this.dropped = false;
+    clearTimeout(this._openT);
+    clearTimeout(this._ringT);
+    this.setState({ panelActive: -1, ringMode: 0 });
+    document.querySelectorAll('#top [data-fall], #top [data-shard]').forEach(el => { (el.getAnimations ? el.getAnimations() : []).forEach(an => an.cancel()); el.style.opacity = 0; });
+  };
+  dropStones = () => {
+    if (this.dropped) return;
+    this.dropped = true;
+    const sec = document.getElementById('top');
+    if (!sec || !sec.animate) return;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const floor = sec.getBoundingClientRect().bottom;
+    const items = [...sec.querySelectorAll('[data-fall]')];
+    items.forEach((el, i) => {
+      const r = el.getBoundingClientRect();
+      const land = Math.max(40, i === 0 ? floor - r.bottom + 8 : floor - r.bottom + r.height * .2);
+      const rot = i === 0 ? 190 : [38, -52, 71, -24, 95, -66, 44, -83, 57, -31, 102, -47][(i - 1) % 12];
+      const delay = i === 0 ? 1260 : i >= 19 ? 2300 + (i - 19) * 270 : i >= 13 ? 1450 + (i - 13) * 170 : 40 + ((i * 97) % 900);
+      const xd = i === 0 ? 34 : 0;
+      if (reduce) { el.style.opacity = 1; el.style.translate = '0 ' + land + 'px'; return; }
+      if (i === 0) {
+        const start = -(r.bottom + 60);
+        const an = el.animate([
+          { opacity: 1, translate: '0px ' + start + 'px', rotate: '-14deg', offset: 0 },
+          { opacity: 1, translate: xd + 'px ' + land + 'px', rotate: rot + 'deg', offset: 1 }
+        ], { duration: 1160, delay, easing: 'cubic-bezier(.45,0,.85,.45)', fill: 'both' });
+        an.onfinish = () => {
+          this.shatterBook(el, sec, floor);
+          clearTimeout(this._openT);
+          this._openT = setTimeout(() => {
+            if (this.heroShrunk && !this.state.ringMode) this.setState({ ringMode: 1 });
+          }, 1000);
+        };
+        return;
+      }
+      el.animate([
+        { opacity: 0, translate: '0px -6px', rotate: '0deg', offset: 0 },
+        { opacity: 1, translate: '0px 0px', rotate: (i === 0 ? -6 : 0) + 'deg', offset: .06 },
+        { opacity: 1, translate: xd + 'px ' + land + 'px', rotate: rot + 'deg', offset: .78, easing: 'ease-out' },
+        { opacity: 1, translate: (xd * 1.12) + 'px ' + (land - (i === 0 ? 14 : 22)) + 'px', rotate: (i === 0 ? rot - 6 : rot * 1.08) + 'deg', offset: .88, easing: 'ease-in' },
+        { opacity: 1, translate: (xd * 1.18) + 'px ' + land + 'px', rotate: (i === 0 ? rot - 10 : rot * 1.12) + 'deg', offset: 1 }
+      ], { duration: i === 0 ? 1150 : 950, delay, easing: 'cubic-bezier(.5,0,.9,.4)', fill: 'forwards' });
+    });
+    if (reduce) return;
+    const shakeEls = [...sec.children].filter(el => !el.hasAttribute('data-fall') && !el.hasAttribute('data-shard') && el.tagName !== 'H1' && !el.querySelector('img[src*="v4-sky"]'));
+    const k = [];
+    for (let j = 0; j <= 20; j++) { const a = (1 - j / 20); k.push({ translate: (j % 2 ? -1 : 1) * 3.2 * a + 'px ' + ((j % 3) - 1) * 1.8 * a + 'px' }); }
+    k[k.length - 1] = { translate: '0px 0px' };
+    shakeEls.forEach(el => el.animate(k, { duration: 1300, delay: 120, easing: 'linear' }));
+    setTimeout(() => shakeEls.forEach(el => el.animate(k.map(f => ({ translate: f.translate.replace(/-?[\d.]+px/g, m => (parseFloat(m) * .6).toFixed(2) + 'px') })), { duration: 1000, easing: 'linear' })), 1420);
+  };
+  scrollToY(y1, dur) {
+    const y0 = window.scrollY, t0 = performance.now();
+    const ease = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+    if (this._scraf) cancelAnimationFrame(this._scraf);
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / dur);
+      window.scrollTo({ top: y0 + (y1 - y0) * ease(t), behavior: 'instant' });
+      if (t < 1) this._scraf = requestAnimationFrame(step);
+    };
+    this._scraf = requestAnimationFrame(step);
+  }
+  why3Top() {
+    const el = document.getElementById('why');
+    return el ? Math.round(el.getBoundingClientRect().top + window.scrollY - 100) : 0;
+  }
+  h1Step = (dir, e) => {
+    const now = Date.now();
+    if ((this.state.introStage || 0) < 5 && window.scrollY <= 2) { e.preventDefault(); if (dir > 0 && !this._sentenceOn) this.playSentence(); return; }
+    const y = window.scrollY;
+    const shift = this.shrinkShift();
+    if (this.heroShrunk) {
+      const w3 = this.why3Top();
+      if (now < this.h1Lock && (Math.abs(y - w3) < 8 || Math.abs(y - shift) < 8)) { e.preventDefault(); return; }
+      if (dir > 0 && y >= shift - 6 && y < w3 - 6) { e.preventDefault(); this.clearFallen(); this.scrollToY(w3, 1000); this.h1Lock = now + 1100; return; }
+      if (dir < 0 && y > shift + 6 && y <= w3 + 80) { e.preventDefault(); this.scrollToY(shift, 1000); this.h1Lock = now + 1100; return; }
+    }
+    {
+      const w3s = this.why3Top();
+      const topOf = (id) => { const el = document.getElementById(id); return el ? Math.round(el.getBoundingClientRect().top + y - 100) : null; };
+      const stops = [w3s, topOf('principles'), topOf('after'), topOf('s6'), topOf('about'), topOf('faq')].filter(v => v != null);
+      for (let n = 0; n < stops.length - 1; n++) {
+        const cur = stops[n], nxt = stops[n + 1];
+        if (dir > 0 && Math.abs(y - cur) <= 8) { e.preventDefault(); if (now >= this.h1Lock) { this.scrollToY(nxt, 1000); this.h1Lock = now + 1100; } return; }
+        if (dir < 0 && y > cur + 8 && y <= nxt + 80) { e.preventDefault(); if (now >= this.h1Lock) { this.scrollToY(cur, 1000); this.h1Lock = now + 1100; } return; }
+      }
+      if (now < this.h1Lock && stops.some(v => Math.abs(y - v) < 8)) { e.preventDefault(); return; }
+    }
+    if (!this.heroShrunk && dir < 0 && y > 2) {
+      const w3b = this.why3Top();
+      if (y <= w3b + 80) { e.preventDefault(); if (now >= this.h1Lock) { this.heroShrunk = true; this.setState({ heroK: 0.68 }); this.scrollToY(this.shrinkShift(), 1000); this.h1Lock = now + 1100; } return; }
+    }
+    if (y > (this.heroShrunk ? shift + 4 : 2)) return;
+    if (now < this.h1Lock) { e.preventDefault(); return; }
+    if (dir > 0) {
+      if (!this.heroShrunk) { e.preventDefault(); this.animShrink(true); this.h1Lock = now + 850; return; }
+    } else {
+      if (this.heroShrunk) { e.preventDefault(); this.animShrink(false); this.h1Lock = now + 850; return; }
+      if (y <= 2 && (this.state.introStage || 0) >= 5) { e.preventDefault(); this.reverseIntro(); this.h1Lock = now + 3100; return; }
+    }
+  };
+  onHeroWheel = (e) => { if (Math.abs(e.deltaY) > 2) this.h1Step(Math.sign(e.deltaY), e); };
+  onHeroTouchStart = (e) => { this._ty = e.touches[0].clientY; };
+  onHeroTouchMove = (e) => {
+    if (this._ty == null) return;
+    const d = this._ty - e.touches[0].clientY;
+    if (Math.abs(d) > 8) this.h1Step(Math.sign(d), e);
+  };
+  onHeroKey = (e) => {
+    if (window.scrollY > 2) return;
+    const fwd = ['ArrowDown', 'PageDown', ' '].includes(e.key), back = ['ArrowUp', 'PageUp'].includes(e.key);
+    if ((fwd && this.h1Prog < 1) || (back && this.h1Prog > 0)) {
+      const t = e.target; if (t && /INPUT|TEXTAREA|SELECT/.test(t.tagName)) return;
+      e.preventDefault();
+      this.setH1(fwd ? 1 : 0);
+    }
+  };
+  prRef = React.createRef();
+  stRef = React.createRef();
+
+  limits() {
+    const w = this.heroRef.current ? this.heroRef.current.getBoundingClientRect().width : window.innerWidth;
+    const pad = (20 / Math.max(w, 1)) * 100;
+    return [pad, 100 - pad];
+  }
+
+  blobUrls = [];
+
+  onResize = () => {
+    const narrow = window.innerWidth < 760;
+    if (narrow !== this.state.narrow) this.setState({ narrow });
+  };
+
+  onHdrScroll = () => {
+    if (this._hdrraf) return;
+    this._hdrraf = requestAnimationFrame(() => {
+      this._hdrraf = null;
+      const y = window.scrollY;
+      const hide = !!this.heroShrunk && y > this.shrinkShift() * 0.5 && y < this.why3Top() - 60;
+      if (hide !== !!this.state.hdrHide) this.setState({ hdrHide: hide });
+    });
+  };
+  componentDidMount() {
+    window.addEventListener('scroll', this.onHdrScroll, { passive: true });
+    window.addEventListener('resize', this.onHeroScroll);
+    window.addEventListener('wheel', this.onHeroWheel, { passive: false });
+    window.addEventListener('touchstart', this.onHeroTouchStart, { passive: true });
+    window.addEventListener('touchmove', this.onHeroTouchMove, { passive: false });
+    window.addEventListener('keydown', this.onHeroKey);
+    this.runIntro();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(this.onHeroScroll);
+    if (this.prRef.current && 'IntersectionObserver' in window) {
+      this.prIO = new IntersectionObserver((en) => { if (en.some(e => e.isIntersecting)) { this.setState({ prIn: true }); this.prIO.disconnect(); } }, { threshold: 0.25 });
+      this.prIO.observe(this.prRef.current);
+    } else this.setState({ prIn: true });
+    if (this.stRef.current && 'IntersectionObserver' in window) {
+      this.stIO = new IntersectionObserver((en) => { if (en.some(e => e.isIntersecting)) { this.setState({ stIn: true }); this.stIO.disconnect(); } }, { threshold: 0.3 });
+      this.stIO.observe(this.stRef.current);
+    } else this.setState({ stIn: true });
+    this.onResize();
+    const phoneCheck = () => { const p = window.matchMedia('(max-width: 820px), (pointer: coarse) and (max-width: 1024px)').matches; if (p !== !!this.state.isPhone) this.setState({ isPhone: p }); };
+    phoneCheck(); this.phoneCheck = phoneCheck; window.addEventListener('resize', phoneCheck);
+    window.addEventListener('resize', this.onResize);
+    this.onWheelHero = (e) => {
+      if (e.deltaY <= 0 || !this.heroRef.current) return;
+      const atTop = (window.scrollY || document.documentElement.scrollTop || 0) < 40;
+      if (this.heroLock) { e.preventDefault(); return; }
+      if (atTop && !this.heroSlid && this.state.split > 12) {
+        e.preventDefault();
+        this.heroSlid = true;
+        this.heroLock = true;
+        this.slideLeft();
+        setTimeout(() => { this.heroLock = false; }, 2700);
+      }
+    };
+    window.addEventListener('wheel', this.onWheelHero, { passive: false });
+    this.onTouchStartHero = (e) => { this.touchY0 = e.touches[0].clientY; };
+    this.onTouchMoveHero = (e) => {
+      if (!this.heroRef.current) return;
+      const dy = (this.touchY0 ?? 0) - e.touches[0].clientY;
+      const atTop = (window.scrollY || 0) < 40;
+      if (this.heroLock) { e.preventDefault(); return; }
+      if (dy > 12 && atTop && !this.heroSlid && this.state.split > 12) {
+        e.preventDefault(); this.heroSlid = true; this.heroLock = true; this.slideLeft();
+        setTimeout(() => { this.heroLock = false; }, 2700);
+      }
+    };
+    window.addEventListener('touchstart', this.onTouchStartHero, { passive: true });
+    window.addEventListener('touchmove', this.onTouchMoveHero, { passive: false });
+    setTimeout(() => this.syncJoinTop(), 300);
+    this.joinRO = new ResizeObserver(() => this.syncJoinTop());
+    const jj = document.querySelector('#join'); if (jj) this.joinRO.observe(jj);
+    const aa = document.querySelector('#after'); if (aa) this.joinRO.observe(aa);
+    window.addEventListener('keydown', this.onAdminKey);
+    try { const saved = JSON.parse(localStorage.getItem('isfi-nav') || 'null'); if (Array.isArray(saved) && saved.length) this.setState({ nav: saved }); } catch (e) {}
+
+    setTimeout(() => this.teaseSlider(), 700);
+    const pairs = [];
+    pairs.forEach(([r, url]) => {
+      fetch(url).then(res => res.blob()).then(blob => {
+        const v = r.current;
+        if (!v) return;
+        const obj = URL.createObjectURL(blob);
+        this.blobUrls.push(obj);
+        v.src = obj;
+        v.muted = true;
+        v.loop = true;
+        v.load();
+        const kick = () => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+        v.addEventListener('pause', kick);
+        v.addEventListener('stalled', kick);
+        v.addEventListener('ended', kick);
+        v.addEventListener('click', (e) => { e.preventDefault(); kick(); });
+        kick();
+        this.keepAlive = this.keepAlive || setInterval(() => {
+          [this.beforeRef, this.afterRef].forEach(rf => { const el = rf.current; if (el && el.paused && el.src) el.play().catch(() => {}); });
+        }, 1500);
+      }).catch(() => {});
+    });
+  }
+
+  homeSplit() {
+    const w = this.heroRef.current ? this.heroRef.current.getBoundingClientRect().width : window.innerWidth;
+    return 100 - (80 / Math.max(w, 1)) * 100;
+  }
+
+  heroProg() {
+    const [lo] = this.limits();
+    const home = this.homeSplit();
+    return Math.max(0, Math.min(1, (home - this.state.split) / Math.max(home - lo, 1)));
+  }
+
+  slideLeft = () => {
+    this.heroSlid = true;
+    cancelAnimationFrame(this.raf);
+    const [lo] = this.limits();
+    const from = this.state.split, start = performance.now(), dur = 2500;
+    const ease = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      this.setState({ split: from + (lo - from) * ease(t) });
+      if (t < 1) this.raf = requestAnimationFrame(step);
+    };
+    this.raf = requestAnimationFrame(step);
+  };
+
+  teaseSlider() {
+    const [lo, hi] = this.limits();
+    const home = this.homeSplit();
+    const keys = [home, lo, hi - 3, home];
+    const start = performance.now(), dur = 2000;
+    const ease = (x) => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      const seg = Math.min(keys.length - 2, Math.floor(t * (keys.length - 1)));
+      const lt = t * (keys.length - 1) - seg;
+      const v = keys[seg] + (keys[seg + 1] - keys[seg]) * ease(lt);
+      if (!this.state.dragging) this.setState({ split: v });
+      if (t < 1) this.raf = requestAnimationFrame(step);
+      else { if (!this.state.dragging) this.setState({ split: home }); this.h1Timer = setTimeout(() => this.setState({ h1In: true }), 200); this.subTimer = setTimeout(() => this.setState({ subIn: true }), 600); }
+    };
+    this.setState({ split: home });
+    this.raf = requestAnimationFrame(step);
+  }
+
+
+  syncJoinTop() {
+    const sec = document.querySelector('#after'), j = document.querySelector('#join');
+    const light = j && j.children[1];
+    if (!sec || !light) return;
+    const v = Math.round(light.getBoundingClientRect().top - sec.getBoundingClientRect().top);
+    if (v > 0 && v !== this.state.joinTopPx) this.setState({ joinTopPx: v });
+  }
+
+  componentDidUpdate() { this.syncJoinTop(); }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onHdrScroll);
+    (this._introT || []).forEach(clearTimeout);
+    clearTimeout(this._dropT);
+    if (this._shraf) cancelAnimationFrame(this._shraf);
+    window.removeEventListener('resize', this.onHeroScroll);
+    window.removeEventListener('wheel', this.onHeroWheel);
+    window.removeEventListener('touchstart', this.onHeroTouchStart);
+    window.removeEventListener('touchmove', this.onHeroTouchMove);
+    window.removeEventListener('keydown', this.onHeroKey);
+    window.removeEventListener('resize', this.onResize);
+    if (this.phoneCheck) window.removeEventListener('resize', this.phoneCheck);
+    window.removeEventListener('wheel', this.onWheelHero);
+    window.removeEventListener('touchstart', this.onTouchStartHero);
+    window.removeEventListener('touchmove', this.onTouchMoveHero);
+    window.removeEventListener('keydown', this.onAdminKey);
+    if (this.raf) cancelAnimationFrame(this.raf);
+    if (this.teaseTimer) clearTimeout(this.teaseTimer);
+    if (this.keepAlive) clearInterval(this.keepAlive);
+    this.blobUrls.forEach(u => URL.revokeObjectURL(u));
+  }
+
+  setSplitFromEvent = (e) => {
+    const box = e.currentTarget.getBoundingClientRect();
+    const pct = ((e.clientX - box.left) / box.width) * 100;
+    const [lo, hi] = this.limits();
+    this.setState({ split: Math.max(lo, Math.min(hi, pct)) });
+  };
+
+  blankImg = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+
+  pillarsData = [
+    { left: '51.3%', right: '29.7%', img: 'assets/problem-2.png', alt: 'משפחה ישראלית עם מזוודות מול מסכי חדשות כלכליות בשדה התעופה', title: 'התנגשות כלכלית', text: 'שיטה שמעודדת תלות ומימון של קבוצות גדולות בידי אחרים מובילה לקריסה', moreText: 'עלייה מתמשכת בנטל המס, ירידה בתעסוקה ובתפוקה, ותקציבים שאינם עומדים בקצב הצרכים — כל אלה מאיצים משבר כלכלי שכל אזרח ישלם את מחירו.' },
+    { left: '29.76%', right: '51.17%', img: 'assets/problem-3.png', alt: 'ישיבת ממשלה עמוסת ניירת ומחלוקות', title: 'שיתוק שלטוני', text: 'מלחמת רשויות וחוסר יעילות — בעיות מבניות של כל ממשלה', moreText: 'ממשלות מתחלפות אך הכשלים נשארים: החלטות אסטרטגיות נדחות, רפורמות נתקעות, ואף ממשלה אינה מצליחה לפעול מעבר לטווח הקצר.' },
+    { left: '7.09%', right: '73.12%', img: 'assets/problem-4.png?v=2', alt: 'ישיבת ממשלה עמוסה בניירת מול דגלי ישראל', title: 'התנגשות ביטחונית', text: 'ללא יציבות חברתית וחוסן כלכלי לא נוכל לקיים את צרכי הביטחון הגדלים של ישראל', moreText: 'האתגרים הביטחוניים רק גדלים, ומימונם דורש כלכלה חזקה וחברה מגובשת — משאבים שהשיטה הנוכחית שוחקת במקום לבנות.' },
+    { left: '73.0%', right: '6.98%', img: 'assets/problem-1.png', alt: 'מפגינים משני צדי המחלוקת ניצבים אלו מול אלו', title: 'התנגשות חברתית', text: 'קבוצות עם חזונות וערכים מנוגדים נאבקות להכריע אחת את השנייה', moreText: 'העמקת הקיטוב מביאה לאובדן שפה משותפת ואמון ציבורי, ומאיימת על היכולת לחיות יחד תחת כללי משחק מוסכמים.' }
+  ];
+
+  questions = [
+    ["מה זה אומר תכלס לשנות את שיטת הממשל?", 'כאן תיכנס התשובה.'],
+    ["איזו שיטת ממשל אתם מציעים?", 'כאן תיכנס התשובה.'],
+    ["הציעו כבר בעבר \"לתקן את השיטה\", מה חדש פה?", 'כאן תיכנס התשובה.'],
+    ["מי עומד מאחורי היוזמה? האם זו יוזמה פוליטית/מפלגתית?", 'כאן תיכנס התשובה.'],
+    ["איזה מפלגה או גוף תומך בהצעה שלכם?", 'כאן תיכנס התשובה.'],
+    ["אני מסכים/ה, אבל מה הסיכוי לקדם דבר כזה?", 'כאן תיכנס התשובה.'],
+    ["למה בעצם אני מצטרף?", 'כאן תיכנס התשובה.'],
+    ["מה עושים עם החתימה והפרטים שלי?", 'כאן תיכנס התשובה.']
+  ];
+
+
+  navDefault = [
+    { label: 'האבחנה', href: '#pillars' },
+    { label: 'התכנית', href: '#principles' },
+    { label: 'אחרי החתימה', href: '#after' },
+    { label: 'העומדים מאחורי', href: '#about' },
+    { label: 'שאלות', href: '#faq' }
+  ];
+  sectionsDef = [
+    { id: 'top', name: 'Hero', desc: 'Before / after video slider, main title, CTA' },
+    { id: 'pillars', name: 'Pillars', desc: 'Four core problems behind the pillars' },
+    { id: 'principles', name: 'Principles', desc: 'Why a system, why now, four principles' },
+    { id: 'after', name: 'After signing', desc: 'Three steps after joining' },
+    { id: 'join', name: 'Join form', desc: 'Signature counter and sign-up form' },
+    { id: 'about', name: 'About', desc: 'The team behind the initiative' },
+    { id: 'faq', name: 'FAQ', desc: 'Questions and answers' },
+    { id: 'footer', name: 'Footer', desc: 'Newsletter, navigation, contact' }
+  ];
+  admTabsDef = [
+    { id: 'brief', label: 'BRIEF', soon: true },
+    { id: 'theme', label: 'THEME SETTINGS' },
+    { id: 'pages', label: 'PAGES & MENU' },
+    { id: 'sitemap', label: 'VISUAL SITEMAP' },
+    { id: 'media', label: 'MEDIA' },
+    { id: 'templates', label: 'TEMPLATES', soon: true },
+    { id: 'kw', label: 'KEYWORD RESEARCH', soon: true }
+  ];
+  paletteDef = [
+    { name: 'Navy', hex: '#17233A', role: 'Primary background, header' },
+    { name: 'Gold', hex: '#C39228', role: 'Accent, primary CTAs' },
+    { name: 'Teal', hex: '#7DBCC5', role: 'Secondary accent' },
+    { name: 'Slate', hex: '#374A6D', role: 'Section background' },
+    { name: 'Mist', hex: '#EDEFF2', role: 'Light section background' },
+    { name: 'Ivory', hex: '#FBFBF9', role: 'Text on dark, light surfaces' }
+  ];
+  fontsDef = [
+    { role: 'HEADLINES', family: 'Karantina', weight: '700', css: 'Karantina, sans-serif', size: '56px', sample: 'משנים שיטה, מבטיחים עתיד' },
+    { role: 'BODY / UI', family: 'Heebo', weight: '300 to 800', css: 'Heebo, sans-serif', size: '22px', sample: 'שיטה וכללי משחק חדשים שיבטיחו יציבות ושגשוג לשנים' }
+  ];
+  logosDef = [
+    { name: 'Logo HE', src: 'assets/logo-he-color.svg' },
+    { name: 'Logo EN', src: 'assets/logo-en-color.svg' }
+  ];
+  mediaDef = [
+    { name: 'Hero', files: ['hero-before.png', 'hero-after.png', 'slide-arrows.svg'] },
+    { name: 'Pillars', files: ['pillars-v8.png', 'problem-1.png', 'problem-2.png', 'problem-3.png', 'problem-4.png'] },
+    { name: 'Steps', files: ['step-1.png', 'step-2.png', 'step-3.png'] },
+    { name: 'Team', files: ['team-kandel.png', 'team-tzur.png', 'team-daniela.png', 'team-kushnir.png'] },
+    { name: 'Logos', files: ['logo-he-color.svg', 'logo-en-color.svg', 'logo-he.svg', 'logo-en.svg'] }
+  ];
+  hist = [];
+  fut = [];
+
+  get nav() { return this.state.nav || this.navDefault; }
+  device() { return this.state.device || this.props.device || 'Desktop'; }
+  isNarrow() { return this.device() === 'Mobile' || !!this.state.narrow; }
+
+  setNav(next, fromHist) {
+    if (!fromHist) { this.hist.push(this.nav); this.fut = []; }
+    this.setState({ nav: next });
+    try { localStorage.setItem('isfi-nav', JSON.stringify(next)); } catch (e) {}
+  }
+  undoNav = () => { if (!this.hist.length) return; this.fut.push(this.nav); this.setNav(this.hist.pop(), true); };
+  redoNav = () => { if (!this.fut.length) return; this.hist.push(this.nav); this.setNav(this.fut.pop(), true); };
+
+  onAdminKey = (e) => {
+    if (!this.state.admOpen) return;
+    if (e.key === 'Escape') { this.setState({ admOpen: false }); return; }
+    const k = (e.key || '').toLowerCase();
+    if ((e.ctrlKey || e.metaKey) && k === 'z') { e.preventDefault(); e.shiftKey ? this.redoNav() : this.undoNav(); }
+    else if ((e.ctrlKey || e.metaKey) && k === 'y') { e.preventDefault(); this.redoNav(); }
+  };
+
+  adminVals() {
+    const open = !!this.state.admOpen;
+    const tab = this.state.admTab || 'pages';
+    const sel = this.state.admSel || 0;
+    const dev = this.device();
+    const nav = this.nav;
+    const tabDef = this.admTabsDef.find(t => t.id === tab) || this.admTabsDef[2];
+    let items;
+    if (tab === 'theme') items = [{ label: 'Color palette', desc: 'Brand colors and their roles' }, { label: 'Typography', desc: 'Karantina headlines, Heebo body' }, { label: 'Logo', desc: 'Hebrew and English logo files' }];
+    else if (tab === 'pages') items = [{ label: 'Header menu', desc: nav.length + ' links in the top navigation' }].concat(this.sectionsDef.map(s => ({ label: s.name, desc: s.desc })));
+    else if (tab === 'sitemap') items = [{ label: 'Site tree', desc: 'Header menu and page sections' }];
+    else if (tab === 'media') items = this.mediaDef.map(f => ({ label: f.name, desc: f.files.length + ' files' }));
+    else items = [{ label: 'Coming soon', desc: 'This tab is not built yet' }];
+    const cur = items[Math.min(sel, items.length - 1)];
+    const kind = tab === 'theme' ? ['palette', 'type', 'logo'][sel] : tab === 'pages' ? (sel === 0 ? 'menu' : 'section') : tab === 'sitemap' ? 'sitemap' : tab === 'media' ? 'media' : 'soon';
+    const section = tab === 'pages' && sel > 0 ? this.sectionsDef[sel - 1] : null;
+    const move = (i, d) => { const j = i + d; if (j < 0 || j >= nav.length) return; const n = nav.slice(); const t = n[i]; n[i] = n[j]; n[j] = t; this.setNav(n); };
+    const folder = tab === 'media' ? this.mediaDef[Math.min(sel, this.mediaDef.length - 1)] : null;
+    const gridN = dev === 'Desktop' ? 12 : 6;
+    return {
+      navLinks: nav,
+      adminEnabled: !!this.props.adminEnabled,
+      openAdmin: () => { if (this.props.adminEnabled) this.setState({ admOpen: true }); },
+      closeAdmin: () => this.setState({ admOpen: false }),
+      stopProp: (e) => e.stopPropagation(),
+      admX: open ? '0%' : '-102%',
+      admVis: open ? 'visible' : 'hidden',
+      admOpacity: open ? 1 : 0,
+      admVisDelay: open ? '0s' : '.6s',
+      admTabTitle: tabDef.label,
+      admTabs: this.admTabsDef.map(t => {
+        const on = t.id === tab;
+        return { label: t.label, soonDisp: t.soon ? 'inline' : 'none', bg: on ? 'rgba(195,146,40,.12)' : 'transparent', fg: t.soon ? 'rgba(255,255,255,.3)' : (on ? '#C39228' : '#F2F2F2'), cur: t.soon ? 'default' : 'pointer', bar: on ? 'inset 3px 0 0 #C39228' : 'none', go: () => { if (!t.soon) this.setState({ admTab: t.id, admSel: 0 }); } };
+      }),
+      admItems: items.map((it, i) => ({ label: it.label, desc: it.desc, bg: i === sel ? '#C39228' : 'transparent', fg: i === sel ? '#0c0c0c' : '#F2F2F2', dfg: i === sel ? 'rgba(0,0,0,.65)' : 'rgba(255,255,255,.45)', go: () => this.setState({ admSel: i }) })),
+      devRadio: ['Desktop', 'Tablet', 'Mobile'].map(d => ({ label: d.toUpperCase(), fg: d === dev ? '#C39228' : 'rgba(255,255,255,.6)', w: d === 'Desktop' ? '20px' : d === 'Tablet' ? '14px' : '9px', h: d === 'Desktop' ? '13px' : d === 'Tablet' ? '18px' : '16px', standDisp: d === 'Desktop' ? 'block' : 'none', go: () => this.setState({ device: d }, () => window.dispatchEvent(new Event('resize'))) })),
+      edTitle: cur.label,
+      edDesc: cur.desc,
+      edShowLogo: open && kind === 'logo', edShowMedia: open && kind === 'media', edIsPalette: kind === 'palette', edIsType: kind === 'type', edIsLogo: kind === 'logo', edIsMenu: kind === 'menu', edIsSection: kind === 'section', edIsSitemap: kind === 'sitemap', edIsMedia: kind === 'media', edIsSoon: kind === 'soon',
+      undo: this.undoNav, redo: this.redoNav,
+      undoFg: this.hist.length ? '#F2F2F2' : 'rgba(255,255,255,.25)',
+      redoFg: this.fut.length ? '#F2F2F2' : 'rgba(255,255,255,.25)',
+      paletteRows: this.paletteDef,
+      fontRows: this.fontsDef,
+      logoRows: this.logosDef,
+      anchorOptions: this.sectionsDef.map(s => ({ value: '#' + s.id, label: s.name + '  #' + s.id })),
+      navRows: nav.map((n, i) => ({
+        label: n.label, href: n.href,
+        onLabel: (e) => { const v = e.target.value; this.setNav(nav.map((x, j) => j === i ? { ...x, label: v } : x)); },
+        onHref: (e) => { const v = e.target.value; this.setNav(nav.map((x, j) => j === i ? { ...x, href: v } : x)); },
+        up: () => move(i, -1), down: () => move(i, 1),
+        del: () => this.setNav(nav.filter((_, j) => j !== i))
+      })),
+      addNav: () => this.setNav(nav.concat([{ label: 'קישור חדש', href: '#top' }])),
+      resetNav: () => this.setNav(this.navDefault),
+      secAnchor: section ? '#' + section.id : '',
+      secInMenu: section ? (nav.filter(n => n.href === '#' + section.id).map(n => n.label).join(', ') || 'Not linked') : '',
+      jumpToSection: () => {
+        if (!section) return;
+        this.setState({ admOpen: false });
+        const el = document.getElementById(section.id);
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' });
+      },
+      sitemapRows: [{ label: 'ISFI · Home', mark: '■', meta: 'PAGE', indent: '0px', bd: '#C39228', bg: 'rgba(195,146,40,.08)' }]
+        .concat([{ label: 'Header menu', mark: '▾', meta: nav.length + ' LINKS', indent: '28px', bd: '#262626', bg: '#141414' }])
+        .concat(nav.map(n => ({ label: n.label, mark: '↳', meta: n.href, indent: '56px', bd: '#1f1f1f', bg: '#111' })))
+        .concat([{ label: 'Sections', mark: '▾', meta: this.sectionsDef.length + ' SECTIONS', indent: '28px', bd: '#262626', bg: '#141414' }])
+        .concat(this.sectionsDef.map(s => ({ label: s.name, mark: '↳', meta: '#' + s.id, indent: '56px', bd: '#1f1f1f', bg: '#111' }))),
+      mediaRows: folder ? folder.files.map(f => ({ name: f, path: 'assets/' + f, isImg: !/\.mp4$/.test(f), isVideo: /\.mp4$/.test(f) })) : [],
+      gridDisplay: this.props.showGrid === true ? 'block' : 'none',
+      gridCount: gridN,
+      gridCols: Array.from({ length: gridN }, (_, i) => String(i + 1)),
+      gridGutter: dev === 'Desktop' ? '24px' : dev === 'Tablet' ? '20px' : '16px',
+      gridMargin: dev === 'Desktop' ? '80px' : dev === 'Tablet' ? '40px' : '20px',
+      frameW: dev === 'Desktop' ? '100%' : dev === 'Tablet' ? '834px' : '375px',
+      frameOutline: dev === 'Desktop' ? 'none' : '1px solid rgba(255,255,255,.35)'
+    };
+  }
+
+
+  crackSet = [0, 1, 2, 3].map(p => {
+    let seed = 97 + p * 131;
+    const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    const out = [];
+    const starts = [[0, 250], [100, 205], [40, 300], [0, 150], [100, 280], [70, 300], [0, 60], [100, 110]];
+    for (let k = 0; k < 8; k++) {
+      let [x, y] = starts[(k + p * 3) % starts.length];
+      const dx = x < 50 ? 1 : -1;
+      const up = y > 200 ? -1 : (rnd() > .5 ? 1 : -1);
+      const pts = [[x, y]];
+      const steps = 5 + Math.floor(rnd() * 4);
+      for (let t = 0; t < steps; t++) {
+        x += dx * (4 + rnd() * 9);
+        y += up * (6 + rnd() * 16) + (rnd() - .5) * 8;
+        x = Math.max(2, Math.min(98, x)); y = Math.max(4, Math.min(298, y));
+        pts.push([x, y]);
+      }
+      const d = 'M' + pts.map(q => q[0].toFixed(1) + ' ' + q[1].toFixed(1)).join(' L');
+      const d2 = 'M' + pts.map(q => (q[0] + .9).toFixed(1) + ' ' + (q[1] + .7).toFixed(1)).join(' L');
+      out.push({ d, d2 });
+    }
+    return out;
+  });
+  addCrack(i) {
+    const n = (this.state.crackN || [0, 0, 0, 0]).slice();
+    n[i] = Math.min(8, (n[i] || 0) + 2);
+    this.setState({ crackN: n });
+  }
+  openNudge = [10, 10, 6, 15];
+  pillarCardsDef = [
+    { px: 84.95, x: 71.04, line1: 'חברה', line2: 'מלוכדת', text: 'שיטה שמתדלקת מלחמה גוברת בין קבוצות עם ערכים וחזונות מנוגדים.' },
+    { px: 61.25, x: 56.61, line1: 'כלכלה', line2: 'חזקה', text: 'שיטה שמנציחה תלות של קבוצות הגדלות במהירות בקבוצות אחרות בציבור.' },
+    { px: 38.7, x: 42.86, line1: 'ממשלה', line2: 'יעילה', text: 'שיטה שמייצרת ריכוזיות, חוסר תפקוד וחוסר יעילות מבני של ממשלות ישראל.' },
+    { px: 14.85, x: 28.18, line1: 'ביטחון', line2: 'לאומי', text: 'שיטה ששוחקת את החברה, הכלכלה והממשל מסכנת את הביטחון הלאומי.' }
+  ];
+  pillarPanelsVals() {
+    const act = this.state.panelActive ?? -1;
+    return { pillarPanels: this.pillarCardsDef.map((p, i) => ({
+      line1: p.line1, line2: p.line2, text: p.text, left: 'calc(50% + ' + ((p.px - 50) * 1.331).toFixed(3) + ' * var(--u))',
+      textOpacity: i === act ? 1 : 0, textMax: i === act ? 'calc(26.62 * var(--u) + 54px)' : '0px',
+      closed: i !== act,
+      preOp: i === act ? 1 : 0,
+      vbar: i === act ? 0 : 1,
+      liftT: i === act ? (-34 + (this.openNudge[i] || 0)) + 'px' : '0px',
+      signT: i === act ? '-6px' : '0px',
+      textGap: i === act ? 'calc(1.198 * var(--u))' : '0px',
+      aria: i === act ? 'סגירה' : 'פתיחה',
+      ringOn: this.state.ringMode === 1 ? i === 0 : this.state.ringMode === 2 ? i !== 0 : false,
+      enter: () => {
+        this.addCrack(i);
+        if (this.state.ringMode === 1) {
+          this.setState({ panelActive: i, ringMode: 1.5 });
+          clearTimeout(this._ringT);
+          this._ringT = setTimeout(() => {
+            this.setState({ ringMode: 2 });
+            this._ringT = setTimeout(() => this.setState({ ringMode: 3 }), 2000);
+          }, 2000);
+        } else this.setState({ panelActive: i });
+      },
+      leave: () => this.setState(st => (st.panelActive === i ? { panelActive: -1 } : null)),
+      toggle: () => { if (this.state.panelActive !== i) this.addCrack(i); this.setState(st => ({ panelActive: st.panelActive === i ? -1 : i })); },
+      cracks: this.crackSet[i].map((c, k) => ({ d: c.d, d2: c.d2, off: k < ((this.state.crackN || [])[i] || 0) ? 0 : 1 }))
+    })) };
+  }
+
+  pillarCardsVals() {
+    const act = this.state.pillarActive ?? 0;
+    return { pillarCards: this.pillarCardsDef.map((p, i) => {
+      const on = i === act;
+      return { line1: p.line1, line2: p.line2, text: p.text, left: (p.x - 5.78) + 'vw',
+        bg: on ? 'rgba(46,42,39,.9)' : 'transparent', bd: on ? '#2E2A27' : 'transparent',
+        fg: on ? '#FBFBF9' : '#3A3A3A', textOpacity: on ? 1 : 0, textDisplay: on ? 'block' : 'none', titleMargin: on ? '0' : '4.3vw 0 0',
+        sign: on ? '−' : '+', vbar: on ? 'none' : 'block', dot: on ? '#FBFBF9' : '#3A3A3A', signMargin: on ? 'auto' : '20px', titleColor: on ? '#FBFBF9' : '#3A3A3A', barColor: on ? '#2E2A27' : '#FBFBF9', enter: () => this.setState({ pillarActive: i }),
+        signClick: (e) => { e.stopPropagation(); this.setState({ pillarActive: on ? -1 : i }); } };
+    }) };
+  }
+
+
+  toggleMeter = () => {
+    if (this.state.meterOn) { cancelAnimationFrame(this.meterRaf); this.setState({ meterOn: false, meterT: 0 }); return; }
+    const light = document.querySelector('#join') && document.querySelector('#join').children[1];
+    const base = light ? light.getBoundingClientRect().top : 0;
+    this.setState({ meterOn: true, meterT: 0, meterShift: 0 });
+    const start = performance.now(), dur = 1800;
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      this.setState({ meterT: 1 - Math.pow(1 - t, 3) });
+      if (t < 1) this.meterRaf = requestAnimationFrame(step);
+    };
+    this.meterRaf = requestAnimationFrame(step);
+  };
+
+  renderVals() {
+    const split = this.state.split;
+    const count = this.props.signatureCount ?? 12400;
+    const narrow = this.isNarrow();
+    return {
+      ...this.adminVals(),
+      ...this.pillarCardsVals(),
+      ...this.pillarPanelsVals(),
+      meterOn: !!this.state.meterOn,
+      joinBgH: '25.4vw',
+      joinBgTop: (this.state.joinTopPx ?? 652) + 'px',
+      joinBgFill: 'calc(100% - ' + (this.state.joinTopPx ?? 652) + 'px)',
+      meterBtnLabel: this.state.meterOn ? 'הסתר מד הצטרפות' : 'מד הצטרפות, יהיה בהמשך',
+      meterWidth: ((this.state.meterT || 0) * 29) + '%',
+      meterCountLabel: Math.round((this.state.meterT || 0) * (this.props.signatureCount ?? 12400)).toLocaleString('en-US'),
+      toggleMeter: this.toggleMeter,
+      heroHeight: narrow ? '620px' : 'auto',
+      heroAspect: narrow ? 'auto' : '2238 / 932',
+      blocksDirection: narrow ? 'column-reverse' : 'row-reverse',
+      blocksShift: narrow ? 'translateY(230px)' : 'translateY(90px)',
+      blocksAlign: narrow ? 'stretch' : 'center',
+      blocksJustify: narrow ? 'center' : 'flex-end',
+      heroAlign: 'flex-start',
+      heroTextAlign: 'right',
+      heroWord: this.state.split >= 60 ? 'מחר' : 'היום',
+      heroLine1: this.state.split >= 60 ? 'שיטה וכללי משחק' : 'קרע חברתי,',
+      heroLine2: this.state.split >= 60 ? 'חדשים שיבטיחו יציבות' : 'נטל כלכלי גדל',
+      heroLine3: this.state.split >= 60 ? 'ושגשוג לשנים' : 'וחוסר תפקוד מערכתי',
+      heroCtaHref: this.state.split >= 60 ? '#join' : '#pillars',
+      heroCtaText: this.state.split >= 60 ? 'אני מצטרף/ת לדרישה' : 'איך מתקנים את השיטה ?',
+      heroCtaBg: this.state.split >= 60 ? '#C39228' : 'rgba(251,251,249,.14)',
+      heroCtaColor: this.state.split >= 60 ? '#17233A' : '#FBFBF9',
+      blockWidth: narrow ? 'min(78vw, 420px)' : 'min(42vw, 420px)',
+      heroNowOpacity: this.state.subIn && split >= 50 ? 1 : 0,
+      heroFutureOpacity: this.state.subIn && split < 50 ? 1 : 0,
+      slideLeft: this.slideLeft,
+      stopProp: (e) => e.stopPropagation(),
+      chevDisplay: split > 12 ? 'flex' : 'none',
+      h1aColor: split < 50 ? '#C39228' : '#2E2A27',
+      h1bColor: split < 50 ? '#17233A' : '#FBFBF9',
+      h1aSize: (1 - 0.2 * this.heroProg()) + 'em',
+      h1bSize: (1 + 0.2 * this.heroProg()) + 'em',
+      beforeClipInv: 'inset(0 0 0 ' + split + '%)',
+      h1Shadow: split < 50 ? '0 4px 24px rgba(255,255,255,.55)' : '0 4px 24px rgba(15,23,40,.35)',
+      h1Opacity: this.state.h1In ? 1 : 0,
+      prRef: this.prRef,
+      stRef: this.stRef,
+      stCardT: this.state.stIn ? 'rotateY(0deg)' : 'rotateY(90deg)',
+      stCardO: this.state.stIn ? 1 : 0,
+      stArrowS: this.state.stIn ? 1 : 0,
+      stArrowO: this.state.stIn ? 1 : 0,
+      prStem: this.state.prIn ? 'scaleY(1)' : 'scaleY(0)',
+      prLine: this.state.prIn ? 'scaleX(1)' : 'scaleX(0)',
+      prCardT: this.state.prIn ? 'translateY(0)' : 'translateY(-4vw)',
+      prCardO: this.state.prIn ? 1 : 0,
+      prLastO: this.state.prIn ? 1 : 0,
+      prLastT: this.state.prIn ? 'translateY(0)' : 'translateY(1vw)',
+      isPhone: !!this.state.isPhone,
+      afterClip: 'inset(0 ' + (100 - split) + '% 0 0)',
+      heroRef: this.heroRef,
+      hdrOp: this.state.hdrHide ? 0 : 1,
+      hdrPE: this.state.hdrHide ? 'none' : 'auto',
+      h1RestRef: this.h1RestRef,
+      heroK: this.state.heroK ?? 1,
+      isrRef: this.isrRef,
+      fadeRef: this.fadeRef,
+      mtRef: this.mtRef,
+      gradOp: (this.state.introStage || 0) >= 1 ? 1 : 0,
+      hintOp: (this.state.introStage || 0) >= 5 ? ((this.state.heroK ?? 1) < 0.999 ? 0 : 1) : (this.state.introStage || 0) >= 1 ? 0 : 1,
+      hintTop: (this.state.introStage || 0) >= 5 ? 'calc(15vh + 50px + 1.86 * var(--u0))' : 'calc(15vh + 34px - 5.016 * var(--u0))',
+      introClip: (this.state.introStage || 0) >= 4 ? 'none' : (this.state.introStage || 0) >= 2 ? 'inset(-30% 0 -30% 0)' : 'inset(-30% 50% -30% 50%)',
+      mtW: (this.state.introStage || 0) >= 4 ? 'none' : (this.state.introStage || 0) >= 3 ? (this.state.mtWpx || 400) + 'px' : '0px',
+      mtOverflow: (this.state.introStage || 0) >= 4 ? 'visible' : 'hidden',
+      mtColor: '#FBFBF9',
+      fadeOp: (this.state.introStage || 0) >= 4 ? 0 : 1,
+      isrShift: (this.state.h1P ? -(this.state.h1Shift || 0) : 0) + 'px 0px',
+      mtShift: (this.state.h1P ? (this.state.h1Shift || 0) : 0) + 'px 0px',
+      h1Scale: (1 + 0.651 * (this.state.h1P || 0)).toFixed(4),
+      sliderTop: narrow ? 'calc(50% + 5.208vw)' : 'calc(43% + 5.208vw)',
+      handleLeft: split + '%',
+      hoverOpacity: this.state.hovering ? 1 : 0,
+      futureTextDisplay: narrow ? 'none' : 'inline',
+      onHoverIn: () => { this.pointerInside = true; this.setState({ hovering: true }); },
+      onHoverOut: () => { this.pointerInside = false; this.setState({ hovering: false, dragging: false }); },
+      countLabel: count.toLocaleString('en-US'),
+      submitLabel: this.state.signed ? 'תודה! הצטרפתם לדרישה ✓' : 'אני מצטרפ/ת לדרישה',
+      newsletterLabel: this.state.subscribed ? 'נרשמתם ✓' : 'הרשמה',
+      beforeRef: this.beforeRef,
+      afterRef: this.afterRef,
+      onDragStart: (e) => { e.currentTarget.setPointerCapture?.(e.pointerId); this.setState({ dragging: true }); this.setSplitFromEvent(e); },
+      onDragMove: (e) => { if (this.state.dragging) this.setSplitFromEvent(e); },
+      onDragEnd: () => this.setState({ dragging: false }),
+      onSubmit: (e) => { e.preventDefault(); this.setState({ signed: true }); },
+      onNewsletter: (e) => { e.preventDefault(); this.setState({ subscribed: true }); },
+      pillars: this.pillarsData.map((p, i) => {
+        const hasImg = !!(p && p.img);
+        const ready = true;
+        const imgSrc = hasImg ? p.img : this.blankImg;
+        const narrow = this.isNarrow();
+        const active = narrow ? this.state.pillarExpanded === i : this.state.pillarHover === i;
+        return {
+          ...p,
+          ready,
+          narrow,
+          active,
+          hasImg,
+          imgSrc,
+          sign: active ? '−' : '+',
+          btnPointerEvents: narrow ? 'auto' : 'none',
+          gradientHeight: active ? 'calc(82% - 40px)' : '62%',
+          textTop: active ? 'calc(42% + 110px)' : 'calc(62% + 60px)',
+          onEnter: () => { if (!narrow) this.setState({ pillarHover: i }); },
+          onLeave: () => { if (!narrow) this.setState({ pillarHover: -1 }); },
+          onTap: () => {},
+          onTapBtn: (e) => { e.stopPropagation(); this.setState(s => ({ pillarExpanded: s.pillarExpanded === i ? -1 : i })); }
+        };
+      }),
+      faq: this.questions.map(([q, a], i) => ({
+        q, a,
+        open: this.state.openIndex === i,
+        sign: this.state.openIndex === i ? '˄' : '˅', chevRot: this.state.openIndex === i ? 'rotate(180deg)' : 'none',
+        toggle: () => this.setState(s => ({ openIndex: s.openIndex === i ? -1 : i }))
+      }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>
